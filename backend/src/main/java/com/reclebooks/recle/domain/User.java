@@ -18,6 +18,8 @@ public class User {
 
     private String userName;
 
+    private String password;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_info_id")
     private UserInfo userInfo;

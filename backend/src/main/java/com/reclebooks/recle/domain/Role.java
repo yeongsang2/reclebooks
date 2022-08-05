@@ -4,10 +4,7 @@ package com.reclebooks.recle.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -16,6 +13,9 @@ public class Role {
 
     @Id @GeneratedValue
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType;
 
     @OneToMany(mappedBy = "role")
     private List<UserRole> userRoles;
