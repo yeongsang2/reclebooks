@@ -1,8 +1,13 @@
-package jpapractice.practice.domain;
+package com.reclebooks.recle.domain;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 public class UserInfo {
 
     @Id
@@ -66,7 +71,6 @@ public class UserInfo {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="user_interest_id")
     private UserInterest userInterest;
-
 
 
 }

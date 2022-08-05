@@ -1,4 +1,4 @@
-package jpapractice.practice.domain;
+package com.reclebooks.recle.domain;
 
 import javax.persistence.*;
 
@@ -11,7 +11,7 @@ public class File {
 
     private String fileUrl;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
 

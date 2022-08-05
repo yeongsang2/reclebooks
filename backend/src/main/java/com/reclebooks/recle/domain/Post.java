@@ -1,10 +1,14 @@
-package jpapractice.practice.domain;
+package com.reclebooks.recle.domain;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter @Setter
 public class Post {
 
 
@@ -12,7 +16,7 @@ public class Post {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
@@ -43,56 +47,4 @@ public class Post {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-        user.getPostList().add(this);
-    }
-
-    public List<File> getFileList() {
-        return fileList;
-    }
-
-    public void setFileList(List<File> fileList) {
-        this.fileList = fileList;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    public BookState getBookState() {
-        return bookState;
-    }
-
-    public void setBookState(BookState bookState) {
-        this.bookState = bookState;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
 }

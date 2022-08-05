@@ -1,22 +1,23 @@
 package com.reclebooks.recle.domain;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 @Getter @Setter
-public class BookState {
+public class Role {
 
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     private Long id;
 
-    private boolean isMarked;
-    private boolean isOutlined;
-
+    @OneToMany(mappedBy = "role")
+    private List<UserRole> userRoles;
 
 }
