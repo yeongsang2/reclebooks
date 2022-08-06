@@ -19,13 +19,15 @@ public class User {
     private Long id;
 
     @NotEmpty
-    private String userName;
+    private String username;
 
     @NotEmpty
     private String password;
 
-    @OneToOne
-    private Authority authority;
+    private boolean activated;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserAuthority> userAuthorities;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_info_id")
@@ -36,5 +38,6 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<UserRole> userRoles;
+
 
 }
