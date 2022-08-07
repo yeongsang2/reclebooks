@@ -30,7 +30,7 @@ public class CustomUserDetailService implements UserDetailsService {
     // 로그인시에 db에서 유저정보와 권한정보를 가져옴 해당 정보를 기반으로 userDetails.User 객체 생성
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findOneWithAuthoritiesByUsername(username)
+        return userRepository.findOneWithuserAuthoritiesByUsername(username)
                 .map(user -> createUser(username, user))
                 .orElseThrow(() -> new UsernameNotFoundException(username + " -> 데이터베이스에서 찾을 수 없음"));
     }
@@ -44,7 +44,6 @@ public class CustomUserDetailService implements UserDetailsService {
         List<SimpleGrantedAuthority> grantedAuthorities = user.getUserAuthorities().stream()
                 .map(userAuthority -> new SimpleGrantedAuthority(userAuthority.getAuthority().getAuthorityType().toString()))
                 .collect(Collectors.toList());
-
 //        List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
 //                .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
 //                .collect(Collectors.toList());

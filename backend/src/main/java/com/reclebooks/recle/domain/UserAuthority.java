@@ -1,21 +1,36 @@
 package com.reclebooks.recle.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
 @Entity
 @Getter @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserAuthority {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Authority authority;
+
+//    public static UserAuthority createUserAuthority(User user){
+//        UserAuthority userAuthority = new UserAuthority();
+//
+//        Authority authority = new Authority();
+//        authority.setAuthorityType(AuthorityType.ROlE_USER);
+//
+//        userAuthority.setUser(user);
+//        user.getUserAuthorities().add(userAuthority); //연관관계 편의메소드?
+//
+//        return userAuthority;
+//    }
 }

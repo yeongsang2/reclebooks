@@ -1,17 +1,21 @@
 package com.reclebooks.recle.domain;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import com.reclebooks.recle.dto.UserDto;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
 @Getter @Setter
+@Builder @NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -26,8 +30,8 @@ public class User {
 
     private boolean activated;
 
-    @OneToMany(mappedBy = "user")
-    private List<UserAuthority> userAuthorities;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<UserAuthority> userAuthorities = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_info_id")
@@ -36,8 +40,15 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Post> post = new ArrayList<Post>();
 
-    @OneToMany(mappedBy = "user")
-    private List<UserRole> userRoles;
-
+//    public static User createUser(UserDto userDto,UserInfo userInfo) {
+//        User user = new User();
+//        user.userInfo = userInfo;
+//        user.setUsername(userDto.getUsername());
+//        user.setPassword(passwordEuserDto.getPassword());
+//        user.setActivated(true);
+//        return user;
+//
+//    }
 
 }
+
