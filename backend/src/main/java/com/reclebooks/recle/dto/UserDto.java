@@ -44,6 +44,5 @@ public class UserDto {
                                 .build())
                         .collect(Collectors.toList()))
                 .build();
-
     }
 }

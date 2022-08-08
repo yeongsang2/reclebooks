@@ -83,7 +83,6 @@ public class UserService {
     }
 
 
-
     private UserInfo createUserInfo(UserDto userdto) {
         UserInfo userInfo = new UserInfo();
         userInfo.setNickName(userdto.getNickname());

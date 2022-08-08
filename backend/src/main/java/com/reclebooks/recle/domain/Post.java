@@ -14,6 +14,7 @@ public class Post {
 
     @Id
     @GeneratedValue
+    @Column(name = "post_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
