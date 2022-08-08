@@ -51,7 +51,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/signup").permitAll()
-                .antMatchers("/api/login").permitAll()
+                .antMatchers("/api/auth").permitAll()
                 .anyRequest().authenticated()
 
                 //JwtFilter를 addFilterBefore로 등로했던 JwtSecurityConfig클래스로 적용

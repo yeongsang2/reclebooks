@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,11 +32,11 @@ public class UserController {
 
 
         //로그인
-        @PostMapping("/login")
+        @PostMapping("/auth")
         public ResponseEntity<TokenDto> login(@Valid @RequestBody LoginDto loginDto){
                 TokenDto tokenDto = userService.login(loginDto);
 
-                String jwt = tokenDto.getToken();
+                String jwt = tokenDto.getJwtToken();
 
                 //jwt token 을 response header 에도 넣어주고
                 HttpHeaders httpHeaders = new HttpHeaders();
@@ -44,4 +45,10 @@ public class UserController {
                 //Tokendto를 이용해 response response body에도 넣어서 리턴
                 return new ResponseEntity<>(tokenDto, httpHeaders, HttpStatus.OK);
         }
+        @GetMapping("/user/{username}")
+        @PreAuthorize("hasAnyRole('ADMIN')")
+        public ResponseEntity<UserDto> getUserInfo(@PathVariable String username){
+                return ResponseEntity.ok(userService.getUserWithAuthorities(username));
+        }
+
 }
