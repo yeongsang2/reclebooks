@@ -85,8 +85,8 @@ public class UserServiceTest {
 
 
         TokenDto token = userService.login(loginDto);
-        org.junit.jupiter.api.Assertions.assertNotNull(token.getToken());
-        System.out.println("token.getToken() = " + token.getToken());
+        org.junit.jupiter.api.Assertions.assertNotNull(token.getJwtToken());
+        System.out.println("token.getToken() = " + token.getJwtToken());
     }
 
 

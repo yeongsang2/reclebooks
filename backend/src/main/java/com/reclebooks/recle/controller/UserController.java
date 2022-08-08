@@ -46,7 +46,7 @@ public class UserController {
                 return new ResponseEntity<>(tokenDto, httpHeaders, HttpStatus.OK);
         }
         @GetMapping("/user/{username}")
-        @PreAuthorize("hasAnyRole('ADMIN')")
+        @PreAuthorize("hasAnyRole('ADMIN')") //회왼조회 admin 계정만 접근가능
         public ResponseEntity<UserDto> getUserInfo(@PathVariable String username){
                 return ResponseEntity.ok(userService.getUserWithAuthorities(username));
         }
