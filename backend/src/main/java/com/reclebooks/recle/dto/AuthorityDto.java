@@ -1,8 +1,6 @@
 package com.reclebooks.recle.dto;
 
-import com.reclebooks.recle.domain.Authority;
 import com.reclebooks.recle.domain.AuthorityType;
-import com.reclebooks.recle.domain.UserAuthority;
 import lombok.*;
 
 @Getter
@@ -12,5 +10,5 @@ import lombok.*;
 @NoArgsConstructor
 public class AuthorityDto {
 
-    private UserAuthority userAuthority;
+    private AuthorityType authorityType;
 }

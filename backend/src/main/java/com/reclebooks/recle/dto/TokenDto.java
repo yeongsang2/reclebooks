@@ -7,5 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class TokenDto {
 
-    private String token;
+    private String jwtToken;
 }

@@ -50,9 +50,8 @@ public class SecurityConfig {
                 // 로그인 api, 회원가입 api는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitall
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/hello").permitAll()
-                .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/signup").permitAll()
+                .antMatchers("/api/auth").permitAll()
                 .anyRequest().authenticated()
 
                 //JwtFilter를 addFilterBefore로 등로했던 JwtSecurityConfig클래스로 적용
