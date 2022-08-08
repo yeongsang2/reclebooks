@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthorityDto {
+public class AuthorityDto2 {
 
-    private UserAuthority userAuthority;
+    private AuthorityType authorityType;
 }
