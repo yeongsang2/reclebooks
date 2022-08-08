@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,20 +33,14 @@ public class Post {
     @JoinColumn(name = "book_state_id")
     private BookState bookState;
 
+    @OneToMany(mappedBy = "post")
+    private List<PostCategory> postCategories;
+
     private String title;
-    private String content;
+    private String description;
     private String price;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
 
 }
