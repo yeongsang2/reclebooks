@@ -22,10 +22,10 @@ public class Category {
     private Category parent;
 
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
     private List<PostCategory> postCategories;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Category> child = new ArrayList<>();
 
     // 양방향 편의 메소드

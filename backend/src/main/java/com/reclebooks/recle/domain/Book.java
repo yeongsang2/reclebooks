@@ -1,5 +1,6 @@
 package com.reclebooks.recle.domain;
 
+import com.reclebooks.recle.dto.PostDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +23,18 @@ public class Book {
     private String author;
     private String price;
     private String isbn;
-    private LocalDateTime publishDate;
+    private String publishDate;
+
+    public static Book createBook(PostDto postDto){
+
+        Book book = new Book();
+        book.setPrice(postDto.getPrice());
+        book.setAuthor(postDto.getBookAuthor());
+        book.setIsbn(postDto.getIsbn());
+        book.setPublishDate(postDto.getPublishDate());
+
+        return book;
+
+    }
 
 }

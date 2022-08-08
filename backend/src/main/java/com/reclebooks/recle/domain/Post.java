@@ -1,5 +1,6 @@
 package com.reclebooks.recle.domain;
 
+import com.reclebooks.recle.dto.PostDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,18 +23,18 @@ public class Post {
     @JoinColumn(name="user_id")
     private User user;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private List<File> fileList = new ArrayList<File>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "book_state_id")
     private BookState bookState;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostCategory> postCategories;
 
     private String title;
@@ -42,5 +43,26 @@ public class Post {
 
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
+
+    public static Post createPost(PostDto postDto, Book book,BookState bookState){
+
+        Post post = new Post();
+        post.setTitle(postDto.getTitle());
+        post.setDescription(postDto.getDescription());
+
+        post.setPrice(postDto.getPrice());
+        post.setCreateDate(LocalDateTime.now());
+
+        post.setBook(book);
+        post.setBookState(bookState);
+
+        return post;
+
+    }
+
+    public void addPostCategory(PostCategory postCategory){
+        postCategories.add(postCategory);
+        postCategory.setPost(this);
+    }
 
 }
