@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -22,6 +23,7 @@ public class UserService {
     private final AuthorityRepository authorityRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EntityManager em;
 
     @Transactional
     public UserDto signUp(UserDto userdto) {
@@ -29,8 +31,7 @@ public class UserService {
             throw new RuntimeException("이미 가입되어 있는 유저 입니다.");
         }
         //userInfo null NullPointerException
-        UserInfo userInfo = new UserInfo();
-        userInfo.setNickName(userdto.getNickname());
+        UserInfo userInfo = createUserInfo(userdto);
 
         User user = User.builder()
                 .username(userdto.getUsername())
@@ -41,15 +42,31 @@ public class UserService {
 
         user.setUserAuthorities(new ArrayList<UserAuthority>());
 
-        Authority authority = new Authority();
-        authority.setAuthorityType(AuthorityType.ROlE_USER);
+        Authority authority = createAuthority();
 
+        createUserAuthority(
+                user, authority);
+
+        return UserDto.from(userRepository.save(user));
+    }
+
+    private UserInfo createUserInfo(UserDto userdto) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setNickName(userdto.getNickname());
+        return userInfo;
+    }
+
+    private Authority createAuthority() {
+        Authority authority = new Authority();
+        authority.setAuthorityType(AuthorityType.ROLE_USER);
+        return authority;
+    }
+
+    private void createUserAuthority(User user, Authority authority) {
         UserAuthority userAuthority = new UserAuthority();
         userAuthority.setAuthority(authority);
         userAuthority.setUser(user);
         userAuthority.getUser().getUserAuthorities().add(userAuthority);
-
-        return UserDto.from(userRepository.save(user));
     }
 
     @Transactional(readOnly = true)

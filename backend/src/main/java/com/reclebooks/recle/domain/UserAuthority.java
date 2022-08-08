@@ -17,9 +17,11 @@ public class UserAuthority {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @JoinColumn(name="authority_id")
     private Authority authority;
 
 //    public static UserAuthority createUserAuthority(User user){

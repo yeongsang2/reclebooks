@@ -28,6 +28,7 @@ public class UserServiceTest {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+
     @Test
     @DisplayName("회원가입")
     @Rollback(value = false)
@@ -40,17 +41,17 @@ public class UserServiceTest {
         userDto.setPassword("yeongsang");
 
         //when
-
+        System.out.println("===========================================");
         UserDto userSignUp = userService.signUp(userDto);
 
         //then
-
-        User user = userRepository.findOneWithuserAuthoritiesByUsername(userSignUp.getUsername()).orElse(null);
-
-        Assertions.assertThat(userSignUp.getUsername()).isEqualTo(user.getUsername());
-        System.out.println("user = " + UserDto.from(user));
-        System.out.println("userSignUp = " + userSignUp);
+        UserDto userDto1 = UserDto.from(userRepository.findOneWithuserAuthoritiesByUsername(userSignUp.getUsername()).orElse(null));
+        Assertions.assertThat(userSignUp.getUsername()).isEqualTo(userDto1.getUsername());
+        Assertions.assertThat(userSignUp.getNickname()).isEqualTo(userDto1.getNickname());
+//        System.out.println("user = " + UserDto.from(user));
+//        System.out.println("userSignUp = " + userSignUp);
 
     }
+
 
 }

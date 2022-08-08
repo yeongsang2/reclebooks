@@ -4,5 +4,5 @@ package com.reclebooks.recle.domain;
 
 public enum AuthorityType {
 
-    ROlE_USER, ROLE_ADMIN;
+    ROLE_USER, ROLE_ADMIN;
 }

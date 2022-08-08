@@ -3,6 +3,7 @@ package com.reclebooks.recle.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.reclebooks.recle.domain.User;
+import com.reclebooks.recle.domain.UserInfo;
 import lombok.*;
 
 import javax.validation.constraints.AssertFalse;
@@ -37,7 +38,6 @@ public class UserDto {
 
     public static UserDto from(User user) {
         if(user == null) return null;
-
         //UserDto 생성
         return UserDto.builder()
                 .username(user.getUsername())

@@ -14,6 +14,7 @@ import java.util.List;
 public class Authority {
 
     @Id @GeneratedValue
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     private AuthorityType authorityType;
