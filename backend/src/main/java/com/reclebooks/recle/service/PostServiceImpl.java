@@ -3,17 +3,14 @@ package com.reclebooks.recle.service;
 import com.reclebooks.recle.domain.*;
 import com.reclebooks.recle.dto.CategoryDto;
 import com.reclebooks.recle.dto.PostDto;
-import com.reclebooks.recle.dto.getPostDto;
-import com.reclebooks.recle.repository.CategoryRepository;
+import com.reclebooks.recle.dto.GetPostDto;
 import com.reclebooks.recle.repository.PostRepository;
 import com.reclebooks.recle.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -27,8 +24,11 @@ public class PostServiceImpl implements PostService{
 
 
     @Override
-    public List<getPostDto> getPostAll() {
-        return null;
+    public List<GetPostDto> getPostAll() {
+
+        return postRepository.findAll().stream()
+                .map(post -> GetPostDto.from(post))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -54,7 +54,6 @@ public class PostServiceImpl implements PostService{
             postCategory.setCategory(categoryById); // 연관관계 주인
             postCategory.setPost(post);
         }
-
         return postRepository.save(post).getId();
     }
 
