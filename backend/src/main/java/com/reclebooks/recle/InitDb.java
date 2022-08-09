@@ -2,7 +2,12 @@ package com.reclebooks.recle;
 
 
 import com.reclebooks.recle.domain.*;
+import com.reclebooks.recle.dto.CategoryDto;
+import com.reclebooks.recle.dto.PostDto;
 import com.reclebooks.recle.dto.UserDto;
+import com.reclebooks.recle.repository.UserRepository;
+import com.reclebooks.recle.service.CategoryService;
+import com.reclebooks.recle.service.PostService;
 import com.reclebooks.recle.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +33,8 @@ public class InitDb {
 
     @PostConstruct
     public void init() {
-        initService.dbInit();
+        initService.dbUserInit();
+        initService.dbPostInit();
     }
     @Component
     @Transactional
@@ -36,9 +42,12 @@ public class InitDb {
     static class InitService {
 
         private final EntityManager em;
-        private UserService userService;
+        private final UserService userService;
+        private final UserRepository userRepository;
+        private final CategoryService categoryService;
+        private final PostService postService;
         private final PasswordEncoder passwordEncoder;
-        public void dbInit(){
+        public void dbUserInit(){
             String encode = passwordEncoder.encode("1234");
             //admin 계정
             User user = createUser("admin", encode);
@@ -90,6 +99,75 @@ public class InitDb {
             em.persist(user2);
         }
 
+        public void dbPostInit(){
+            User user = userRepository.findOneWithuserAuthoritiesByUsername("yeongsang").get();
+
+            Category category = new Category();  //category
+            category.setName("자바");
+            categoryService.createCategory(category);
+            Category category1 = new Category();
+            category1.setName("컴퓨터");
+            categoryService.createCategory(category1);
+
+
+
+            PostDto postDto = new PostDto();
+
+            postDto.getCategoryDtos().add(CategoryDto.from(category));
+            postDto.getCategoryDtos().add(CategoryDto.from(category1));
+
+            postDto.setUserId(user.getId());
+
+            postDto.setTitle("책팜");
+            postDto.setDescription("책팔아용");
+            postDto.setPrice("10000");
+
+            postDto.setBookName("jpa");
+            postDto.setBookAuthor("김영한");
+            postDto.setBookPrice("200000");
+            postDto.setBookPublisher("조은출판");
+            postDto.setIsbn("2315");
+            postDto.setPublishDate("20200303");
+
+            postDto.getCategoryDtos().add(CategoryDto.from(category));
+            postDto.getCategoryDtos().add(CategoryDto.from(category1));
+
+            postDto.setUserId(user.getId());
+
+            postDto.setTitle("책팜");
+            postDto.setDescription("책팔아용");
+            postDto.setPrice("10000");
+
+            postDto.setBookName("jpa");
+            postDto.setBookAuthor("김영한");
+            postDto.setBookPrice("200000");
+            postDto.setBookPublisher("조은출판");
+            postDto.setIsbn("2315");
+            postDto.setPublishDate("20200303");
+///////////////////////////////////////
+            PostDto postDto1 = new PostDto();
+
+            postDto1.getCategoryDtos().add(CategoryDto.from(category));
+            postDto1.getCategoryDtos().add(CategoryDto.from(category1));
+
+            postDto1.setUserId(user.getId());
+
+            postDto1.setTitle("토비의스프링");
+            postDto1.setDescription("책팔아용");
+            postDto1.setPrice("15000");
+
+            postDto1.setBookName("토비의스프링");
+            postDto1.setBookAuthor("토비");
+            postDto1.setBookPrice("25000");
+            postDto1.setBookPublisher("조은출판");
+            postDto1.setIsbn("8455");
+            postDto1.setPublishDate("20201212");
+
+            //when
+            Long postId = postService.createPost(postDto);
+            Long postId1 = postService.createPost(postDto1);
+        }
+
         private UserAuthority createUserAuthority(User user, Authority authority) {
             UserAuthority userAuthority = new UserAuthority();
             userAuthority.setAuthority(authority);
@@ -112,4 +190,6 @@ public class InitDb {
         }
 
     }
+
+
 }
