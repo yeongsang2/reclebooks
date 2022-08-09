@@ -128,9 +128,9 @@ public class PostServiceImplTest {
         Long postId1 = postService.createPost(postDto1);
 
         //
-        List<GetPostDto> postAll = postService.getPostAll();
+//        List<GetPostDto> postAll = postService.getPostAll();
         System.out.println("=================================");
-        System.out.println(postAll);
+//        System.out.println(postAll);
         System.out.println("=================================");
 
 

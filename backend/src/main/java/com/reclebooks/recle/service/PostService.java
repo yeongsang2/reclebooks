@@ -2,6 +2,7 @@ package com.reclebooks.recle.service;
 
 import com.reclebooks.recle.dto.PostDto;
 import com.reclebooks.recle.dto.GetPostDto;
+import com.reclebooks.recle.dto.PostListDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface PostService{
 
 
     // 전체조회
-    public List<GetPostDto> getPostAll();
+    public PostListDto getPostAll();
 
     // 단건조회
     public PostDto getPostOneByPostId(Long id);

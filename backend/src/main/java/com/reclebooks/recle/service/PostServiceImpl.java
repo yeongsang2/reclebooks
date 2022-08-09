@@ -4,9 +4,11 @@ import com.reclebooks.recle.domain.*;
 import com.reclebooks.recle.dto.CategoryDto;
 import com.reclebooks.recle.dto.PostDto;
 import com.reclebooks.recle.dto.GetPostDto;
+import com.reclebooks.recle.dto.PostListDto;
 import com.reclebooks.recle.repository.PostRepository;
 import com.reclebooks.recle.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +24,19 @@ public class PostServiceImpl implements PostService{
     private final CategoryService categoryService;
 
 
+    //dto로 변환해서 반환하기
     @Override
-    public List<GetPostDto> getPostAll() {
+    public PostListDto getPostAll() {
 
-        return postRepository.findAll().stream()
+        List<GetPostDto> postDtos = postRepository.findAll().stream()
                 .map(post -> GetPostDto.from(post))
                 .collect(Collectors.toList());
+        PostListDto postListDto = new PostListDto();
+        postListDto.setPostDtos(postDtos);
+        postListDto.setCount(postDtos.size());
+
+        return postListDto;
+
     }
 
     @Override
