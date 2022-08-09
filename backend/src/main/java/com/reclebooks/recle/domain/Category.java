@@ -23,7 +23,7 @@ public class Category {
 
 
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
-    private List<PostCategory> postCategories;
+    private List<PostCategory> postCategories = new ArrayList<>();
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Category> child = new ArrayList<>();

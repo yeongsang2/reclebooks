@@ -23,14 +23,17 @@ public class Book {
     private String author;
     private String price;
     private String isbn;
+    private String publisher;
     private String publishDate;
 
     public static Book createBook(PostDto postDto){
 
         Book book = new Book();
+        book.setName(postDto.getBookName());
         book.setPrice(postDto.getPrice());
         book.setAuthor(postDto.getBookAuthor());
         book.setIsbn(postDto.getIsbn());
+        book.setPublisher(postDto.getBookPublisher());
         book.setPublishDate(postDto.getPublishDate());
 
         return book;

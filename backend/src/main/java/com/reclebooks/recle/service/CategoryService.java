@@ -14,6 +14,7 @@ public interface CategoryService {
     //category 불러오기
     public List<CategoryDto> getCategoryAll();
 
+
     //id로 category 가져오기
     public Category getCategoryById(Long categoryId);
 

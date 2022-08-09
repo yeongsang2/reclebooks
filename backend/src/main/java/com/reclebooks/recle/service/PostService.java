@@ -16,7 +16,7 @@ public interface PostService{
     public List<getPostDto> getPostAll();
 
     // 단건조회
-    public getPostDto getPostOneByPostId(Long id);
+    public PostDto getPostOneByPostId(Long id);
 
     // 등록
     public Long createPost(PostDto postDto);

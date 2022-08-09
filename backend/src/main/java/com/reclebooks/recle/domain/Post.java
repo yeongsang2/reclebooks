@@ -35,7 +35,7 @@ public class Post {
     private BookState bookState;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<PostCategory> postCategories;
+    private List<PostCategory> postCategories = new ArrayList<>();
 
     private String title;
     private String description;
@@ -44,9 +44,12 @@ public class Post {
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
 
-    public static Post createPost(PostDto postDto, Book book,BookState bookState){
+    public static Post createPost(PostDto postDto, User user, Book book,BookState bookState){
 
         Post post = new Post();
+
+        post.setUser(user);
+
         post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
 

@@ -38,7 +38,7 @@ public class User {
     @JoinColumn(name = "user_info_id")
     private UserInfo userInfo;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> post = new ArrayList<Post>();
 
 //    public static User createUser(UserDto userDto,UserInfo userInfo) {

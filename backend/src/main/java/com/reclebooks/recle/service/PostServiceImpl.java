@@ -32,34 +32,30 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public getPostDto getPostOneByPostId(Long postId) {
-        return null;
+    public PostDto getPostOneByPostId(Long postId) {
+        return PostDto.from(postRepository.findById(postId).get());
     }
-
+        
     @Override
     public Long createPost(PostDto postDto) {
 
-        // category
-        Category category = categoryService.getCategoryById(postDto.getCategoryId());
-
-        PostCategory postCategory = new PostCategory();
-        postCategory.setCategory(category);
-
-        //User 정보
-        User findUser = userRepository.findById(postDto.getUserId()).get();
+        User user = userRepository.findById(postDto.getUserId()).get();
 
         Book book = Book.createBook(postDto);
 
         BookState bookState = BookState.createBookState(postDto);
 
-        Post post = Post.createPost(postDto, book, bookState);
+        Post post = Post.createPost(postDto, user, book, bookState);
 
-        Post savePost = postRepository.save(post);
+        // category 설정
+        for (CategoryDto categoryDto : postDto.getCategoryDtos()) {
+            Category categoryById = categoryService.getCategoryById(categoryDto.getId());
+            PostCategory postCategory = new PostCategory();
+            postCategory.setCategory(categoryById); // 연관관계 주인
+            postCategory.setPost(post);
+        }
 
-        post.addPostCategory(postCategory);
-
-        return savePost.getId();
-
+        return postRepository.save(post).getId();
     }
 
     @Override
