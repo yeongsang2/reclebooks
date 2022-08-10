@@ -109,8 +109,6 @@ public class InitDb {
             category1.setName("컴퓨터");
             categoryService.createCategory(category1);
 
-
-
             PostDto postDto = new PostDto();
 
             postDto.getCategoryDtos().add(CategoryDto.from(category));
@@ -129,22 +127,8 @@ public class InitDb {
             postDto.setIsbn("2315");
             postDto.setPublishDate("20200303");
 
-            postDto.getCategoryDtos().add(CategoryDto.from(category));
-            postDto.getCategoryDtos().add(CategoryDto.from(category1));
-
-            postDto.setUserId(user.getId());
-
-            postDto.setTitle("책팜");
-            postDto.setDescription("책팔아용");
-            postDto.setPrice("10000");
-
-            postDto.setBookName("jpa");
-            postDto.setBookAuthor("김영한");
-            postDto.setBookPrice("200000");
-            postDto.setBookPublisher("조은출판");
-            postDto.setIsbn("2315");
-            postDto.setPublishDate("20200303");
 ///////////////////////////////////////
+
             PostDto postDto1 = new PostDto();
 
             postDto1.getCategoryDtos().add(CategoryDto.from(category));

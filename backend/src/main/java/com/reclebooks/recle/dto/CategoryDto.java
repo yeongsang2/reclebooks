@@ -4,10 +4,12 @@ package com.reclebooks.recle.dto;
 import com.reclebooks.recle.domain.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class CategoryDto {
 
 

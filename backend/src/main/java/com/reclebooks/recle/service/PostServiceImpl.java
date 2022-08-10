@@ -55,6 +55,7 @@ public class PostServiceImpl implements PostService{
 
         Post post = Post.createPost(postDto, user, book, bookState);
 
+
         // category 설정
         for (CategoryDto categoryDto : postDto.getCategoryDtos()) {
             Category categoryById = categoryService.getCategoryById(categoryDto.getId());
