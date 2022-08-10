@@ -12,6 +12,7 @@ public class PostCategory {
 
     @Id
     @GeneratedValue
+    @Column(name = "post_category_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

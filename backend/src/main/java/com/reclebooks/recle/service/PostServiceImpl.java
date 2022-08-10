@@ -72,7 +72,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public Long deletePost(PostDto postDto) {
-        return null;
+    public void deletePost(Long postId) {
+        postRepository.deleteById(postId); // 성공하면? null이면 ?? 나중에 예외처리해야할듯
     }
 }

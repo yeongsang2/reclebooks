@@ -22,7 +22,7 @@ public interface PostService{
     // 수정
     public Long updatePost(PostDto postDto);
     // 삭제
-    public Long deletePost(PostDto postDto);
+    public void deletePost(Long postId);
 
     // 검색
 }

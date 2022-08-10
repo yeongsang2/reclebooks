@@ -5,8 +5,10 @@ import com.reclebooks.recle.domain.User;
 import com.reclebooks.recle.dto.CategoryDto;
 import com.reclebooks.recle.dto.GetPostDto;
 import com.reclebooks.recle.dto.PostDto;
+import com.reclebooks.recle.dto.PostListDto;
 import com.reclebooks.recle.repository.UserRepository;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @RunWith(SpringRunner.class)
@@ -132,8 +135,22 @@ public class PostServiceImplTest {
         System.out.println("=================================");
 //        System.out.println(postAll);
         System.out.println("=================================");
+    }
 
+    @Test(expected = NoSuchElementException.class)
+    @Rollback(value = false)
+    public void deletePost(){
 
+        //given
+        PostListDto postAll = postService.getPostAll();
+        GetPostDto getPostDto = postAll.getPostDtos().get(0);
+        Long postId1 = getPostDto.getPostId();
+
+        //when
+        postService.deletePost(postId1);
+
+        //then
+        postService.getPostOneByPostId(postId1);
     }
 
 }

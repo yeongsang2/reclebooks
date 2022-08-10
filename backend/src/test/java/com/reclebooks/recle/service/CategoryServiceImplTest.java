@@ -13,6 +13,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -46,7 +48,7 @@ public class CategoryServiceImplTest {
 
     @Rollback(value = false)
     @Test
-    public void 이름으로조회(){
+    public void 이름으로조회 (){
 
 
         //given
