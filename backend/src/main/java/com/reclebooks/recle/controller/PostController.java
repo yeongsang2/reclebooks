@@ -8,6 +8,7 @@ import com.reclebooks.recle.service.PostService;
 import com.reclebooks.recle.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -61,4 +62,22 @@ public class PostController {
 
         return ResponseEntity.ok(postService.createPost(postDto));
     }
+
+    @DeleteMapping("/post/{postId}")
+    @PreAuthorize("hasAnyRole('USER')") //user만 게시글 작성가능
+    public ResponseEntity<?> deletePost(@PathVariable Long postId){
+
+        PostDto findPostDto = postService.getPostOneByPostId(postId);
+        Long userId = findPostDto.getUserId();
+
+        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
+        if(user.getId() != userId){ //검증
+            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+        postService.deletePost(postId);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+
 }
+
