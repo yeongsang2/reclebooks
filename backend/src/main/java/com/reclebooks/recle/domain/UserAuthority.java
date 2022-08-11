@@ -14,6 +14,7 @@ public class UserAuthority {
 
     @Id
     @GeneratedValue
+    @Column(name = "user_authority_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

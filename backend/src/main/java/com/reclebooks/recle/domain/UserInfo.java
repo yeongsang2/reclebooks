@@ -12,6 +12,7 @@ public class UserInfo {
 
     @Id
     @GeneratedValue
+    @Column(name = "user_info_id")
     private Long id;
 
     private String nickName;

@@ -14,6 +14,7 @@ import java.util.List;
 public class Authority {
 
     @Id @GeneratedValue
+    @Column(name="authority_id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
