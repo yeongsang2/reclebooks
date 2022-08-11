@@ -1,10 +1,7 @@
 package com.reclebooks.recle.service;
 
 import com.reclebooks.recle.domain.*;
-import com.reclebooks.recle.dto.CategoryDto;
-import com.reclebooks.recle.dto.PostDto;
-import com.reclebooks.recle.dto.GetPostDto;
-import com.reclebooks.recle.dto.PostListDto;
+import com.reclebooks.recle.dto.*;
 import com.reclebooks.recle.repository.PostRepository;
 import com.reclebooks.recle.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -66,8 +63,13 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public Long updatePost(PostDto postDto) {
-        return null;
+    public Long updatePost(UpdatePostDto updatePostDto) {
+
+        Post post = postRepository.findById(updatePostDto.getPostId()).get();
+
+        Post updatePost = post.updatePost(updatePostDto);
+
+        return postRepository.save(updatePost).getId();
     }
 
     @Override

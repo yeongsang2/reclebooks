@@ -3,6 +3,7 @@ package com.reclebooks.recle.service;
 import com.reclebooks.recle.dto.PostDto;
 import com.reclebooks.recle.dto.GetPostDto;
 import com.reclebooks.recle.dto.PostListDto;
+import com.reclebooks.recle.dto.UpdatePostDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface PostService{
     // 등록
     public Long createPost(PostDto postDto);
     // 수정
-    public Long updatePost(PostDto postDto);
+    public Long updatePost(UpdatePostDto updatePostDto);
     // 삭제
     public void deletePost(Long postId);
 

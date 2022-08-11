@@ -62,8 +62,25 @@ public class PostController {
 
         return ResponseEntity.ok(postService.createPost(postDto));
     }
+
+    @PatchMapping("/post")
+    @PreAuthorize("hasAnyRole('USER')") // 해당 사용자만 게시글 수정 가능
+    public ResponseEntity<?> upDate(@RequestBody UpdatePostDto updatePostDto){
+
+        PostDto findPostDto = postService.getPostOneByPostId(updatePostDto.getPostId());
+        Long userId = findPostDto.getUserId();
+
+        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
+
+        if(user.getId() != userId){ //검증
+            return new ResponseEntity<String>("Forbidden", HttpStatus.FORBIDDEN);
+        }
+
+        return ResponseEntity.ok(postService.updatePost(updatePostDto));
+
+    }
     @DeleteMapping("/post/{postId}")
-    @PreAuthorize("hasAnyRole('USER')") //user만 게시글 작성가능
+    @PreAuthorize("hasAnyRole('USER')") //user만 게시글 삭제가능
     public ResponseEntity<?> deletePost(@PathVariable Long postId){
 
         PostDto findPostDto = postService.getPostOneByPostId(postId);

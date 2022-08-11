@@ -1,6 +1,7 @@
 package com.reclebooks.recle.domain;
 
 import com.reclebooks.recle.dto.PostDto;
+import com.reclebooks.recle.dto.UpdatePostDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -61,6 +62,20 @@ public class Post {
 
         return post;
 
+    }
+
+    public Post updatePost(UpdatePostDto updatePostDto){
+        title = updatePostDto.getTitle();
+        description = updatePostDto.getDescription();
+        price = updatePostDto.getPrice();
+        updateDate = LocalDateTime.now();
+
+        bookState.setMarkedWithPen(updatePostDto.isMarkedWithPen());
+        bookState.setMarkedWithPencil(updatePostDto.isMarkedWithPencil());
+        bookState.setOutlinedWithPencil(updatePostDto.isOutlinedWithPencil());
+        bookState.setOutlinedWithPen(updatePostDto.isOutlinedWithPen());
+
+        return this;
     }
 
     public void addPostCategory(PostCategory postCategory){
