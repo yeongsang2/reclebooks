@@ -24,7 +24,7 @@ public class UserController {
         private final UserService userService;
 
         //userdto로 회원가입 userdto 반환 responseentity로 감싸서 userdto반환
-        @PostMapping("/signup")
+        @PostMapping("/user")
         public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) {
 
                 return ResponseEntity.ok(userService.signUp(userDto));
@@ -45,6 +45,7 @@ public class UserController {
                 //Tokendto를 이용해 response response body에도 넣어서 리턴
                 return new ResponseEntity<>(tokenDto, httpHeaders, HttpStatus.OK);
         }
+
         @GetMapping("/user/{username}")
         @PreAuthorize("hasAnyRole('ADMIN')") //회왼조회 admin 계정만 접근가능
         public ResponseEntity<UserDto> getUserInfo(@PathVariable String username){

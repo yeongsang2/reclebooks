@@ -28,21 +28,21 @@ public class PostController {
 
     private final CategoryService categoryService;
     //전체조회
-    @GetMapping("/post")
+    @GetMapping("/board") //전체조회
     public ResponseEntity<PostListDto> getPostAll(){
         PostListDto postAll = postService.getPostAll();
 
         return ResponseEntity.ok(postAll);
     }
 
-    @GetMapping("/post/{postId}")
+    @GetMapping("/board/post/{postId}") // 단건조회
     public ResponseEntity<PostDto> getPostOne(@PathVariable Long postId){
         PostDto findPost = postService.getPostOneByPostId(postId);
 
         return ResponseEntity.ok(findPost);
     }
 
-    @PostMapping("/post/new")
+    @PostMapping("/board/post")
     @PreAuthorize("hasAnyRole('USER')") //user만 게시글 작성가능
     public ResponseEntity<Long> createPost(@RequestBody PostDto postDto){
 
@@ -63,7 +63,7 @@ public class PostController {
         return ResponseEntity.ok(postService.createPost(postDto));
     }
 
-    @PatchMapping("/post")
+    @PatchMapping("/board/post")
     @PreAuthorize("hasAnyRole('USER')") // 해당 사용자만 게시글 수정 가능
     public ResponseEntity<?> upDate(@RequestBody UpdatePostDto updatePostDto){
 
@@ -79,7 +79,7 @@ public class PostController {
         return ResponseEntity.ok(postService.updatePost(updatePostDto));
 
     }
-    @DeleteMapping("/post/{postId}")
+    @DeleteMapping("/board/post/{postId}")
     @PreAuthorize("hasAnyRole('USER')") //user만 게시글 삭제가능
     public ResponseEntity<?> deletePost(@PathVariable Long postId){
 
