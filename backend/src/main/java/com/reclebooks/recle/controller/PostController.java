@@ -62,7 +62,6 @@ public class PostController {
 
         return ResponseEntity.ok(postService.createPost(postDto));
     }
-
     @DeleteMapping("/post/{postId}")
     @PreAuthorize("hasAnyRole('USER')") //user만 게시글 작성가능
     public ResponseEntity<?> deletePost(@PathVariable Long postId){
@@ -72,7 +71,7 @@ public class PostController {
 
         User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
         if(user.getId() != userId){ //검증
-            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<String>("Forbidden", HttpStatus.FORBIDDEN);
         }
         postService.deletePost(postId);
         return ResponseEntity.ok(HttpStatus.OK);

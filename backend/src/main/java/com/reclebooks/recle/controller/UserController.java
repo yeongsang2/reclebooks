@@ -25,9 +25,9 @@ public class UserController {
 
         //userdto로 회원가입 userdto 반환 responseentity로 감싸서 userdto반환
         @PostMapping("/signup")
-        public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto){
+        public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) {
 
-            return ResponseEntity.ok(userService.signUp(userDto));
+                return ResponseEntity.ok(userService.signUp(userDto));
         }
 
 

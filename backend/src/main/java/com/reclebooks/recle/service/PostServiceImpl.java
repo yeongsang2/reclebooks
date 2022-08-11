@@ -36,7 +36,6 @@ public class PostServiceImpl implements PostService{
         postListDto.setCount(postDtos.size());
 
         return postListDto;
-
     }
 
     @Override
