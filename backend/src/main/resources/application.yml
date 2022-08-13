@@ -4,7 +4,7 @@ spring:
     suffix: .html
 
   datasource:
-    url: jdbc:mysql://localhost:3307/web_programming/?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3307/est/?serverTimezone=Asia/Seoul
     username: root
     password: 041102
     driver-class-name: com.mysql.cj.jdbc.Driver
