@@ -4,9 +4,9 @@ spring:
     suffix: .html
 
   datasource:
-    url: jdbc:mysql://localhost:3307/web_programming/?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
-    username: user
-    password: yeongsang123
+    url: jdbc:mysql://localhost:3306/recle?useSSL=false&useTimezone=true&serverTimezone=UTC
+    username: ys
+    password: dudtkd1221!
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -14,7 +14,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       show_sql: true
       format_sql: true
