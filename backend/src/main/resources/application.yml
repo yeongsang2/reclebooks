@@ -2,19 +2,22 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
+
   datasource:
-    url: jdbc:h2:tcp://localhost/~/jpashop
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://springboot-db.ckd9iqpdnmol.ap-northeast-2.rds.amazonaws.com:3306/reclebooks?useSSL=false&allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=UTC
+    username: yeongsang
+    password: recle123
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
     hibernate:
       ddl-auto: create
     properties:
-      hibernate:
-#        show_sql: true
-        format_sql: true
+      show_sql: true
+      format_sql: true
 
 logging:
   level:
