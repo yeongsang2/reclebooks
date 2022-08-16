@@ -25,7 +25,7 @@ public class Post {
     private User user;
 
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
-    private List<File> fileList = new ArrayList<File>();
+    private List<Photo> photoList = new ArrayList<Photo>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "book_id")

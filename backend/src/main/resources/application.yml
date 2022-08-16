@@ -2,8 +2,12 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
 
-#  datasource:
+  #  datasource:
 #    url: jdbc:mysql://springboot-db.ckd9iqpdnmol.ap-northeast-2.rds.amazonaws.com:3306/reclebooks?useSSL=false&allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=UTC
 #    username: yeongsang
 #    password: recle123
