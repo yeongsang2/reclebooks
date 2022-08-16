@@ -3,11 +3,17 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
 
+#  datasource:
+#    url: jdbc:mysql://springboot-db.ckd9iqpdnmol.ap-northeast-2.rds.amazonaws.com:3306/reclebooks?useSSL=false&allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=UTC
+#    username: yeongsang
+#    password: recle123
+#    driver-class-name: com.mysql.cj.jdbc.Driver
   datasource:
-    url: jdbc:mysql://springboot-db.ckd9iqpdnmol.ap-northeast-2.rds.amazonaws.com:3306/reclebooks?useSSL=false&allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=UTC
-    username: yeongsang
-    password: recle123
+    url: jdbc:mysql://localhost/reclebooks?useSSL=false&allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=UTC
+    username: ys
+    password: dudtkd1221!
     driver-class-name: com.mysql.cj.jdbc.Driver
+
 
   jpa:
     database: mysql
