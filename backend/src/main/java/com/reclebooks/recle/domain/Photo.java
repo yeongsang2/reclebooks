@@ -18,7 +18,7 @@ public class Photo {
 
     private String photoName;
 
-    private String photoUrl;
+    private String photoPath;
 
     private Long photoSize;
 

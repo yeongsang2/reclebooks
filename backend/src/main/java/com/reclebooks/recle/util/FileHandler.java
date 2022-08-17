@@ -70,14 +70,14 @@ public class FileHandler {
                 //사진 dto생성
                 PhotoDto photoDto = PhotoDto.builder()
                         .photoName(multipartFile.getOriginalFilename())
-                        .photoUrl(path + File.separator + newFileName)
+                        .photoPath(path + File.separator + newFileName)
                         .photoSize(multipartFile.getSize())
                         .build();
 
                 // 파일 DTO 이용하여 Photo 엔티티 생성
                 Photo photo = Photo.builder()
                         .photoName(photoDto.getPhotoName())
-                        .photoUrl(photoDto.getPhotoUrl())
+                        .photoPath(photoDto.getPhotoPath())
                         .photoSize(photoDto.getPhotoSize())
                         .build();
 

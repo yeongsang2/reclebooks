@@ -12,7 +12,7 @@ public class PhotoDto {
 
     private String photoName;
 
-    private String photoUrl;
+    private String photoPath;
 
     private Long photoSize;
 

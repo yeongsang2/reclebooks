@@ -56,7 +56,7 @@ public class PostController {
 
     @PostMapping(value = "/board/post" ,  consumes = { MediaType.APPLICATION_JSON_VALUE,  MediaType.MULTIPART_FORM_DATA_VALUE })
     @PreAuthorize("hasAnyRole('USER')") //user만 게시글 작성가능
-    public ResponseEntity<Long> createPost(@RequestPart PostDto postDto, @RequestPart List<MultipartFile> files) throws Exception {
+    public ResponseEntity<Long> createPost(@RequestPart PostDto postDto, @RequestPart(required = false) List<MultipartFile> files) throws Exception {
 
         User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
 
