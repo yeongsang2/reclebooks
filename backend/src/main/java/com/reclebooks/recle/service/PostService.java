@@ -5,6 +5,7 @@ import com.reclebooks.recle.dto.GetPostDto;
 import com.reclebooks.recle.dto.PostListDto;
 import com.reclebooks.recle.dto.UpdatePostDto;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface PostService{
     public PostDto getPostOneByPostId(Long id);
 
     // 등록
-    public Long createPost(PostDto postDto);
+    public Long createPost(PostDto postDto, List<MultipartFile> files) throws Exception;
     // 수정
     public Long updatePost(UpdatePostDto updatePostDto);
     // 삭제

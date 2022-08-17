@@ -4,10 +4,13 @@ import com.reclebooks.recle.domain.*;
 import com.reclebooks.recle.dto.*;
 import com.reclebooks.recle.repository.PostRepository;
 import com.reclebooks.recle.repository.UserRepository;
+import com.reclebooks.recle.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +22,8 @@ public class PostServiceImpl implements PostService{
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final CategoryService categoryService;
+
+    private final FileHandler fileHandler;
 
 
     //dto로 변환해서 반환하기
@@ -41,7 +46,7 @@ public class PostServiceImpl implements PostService{
     }
         
     @Override
-    public Long createPost(PostDto postDto) {
+    public Long createPost(PostDto postDto, List<MultipartFile> files) throws Exception {
 
         User user = userRepository.findById(postDto.getUserId()).get();
 
@@ -49,15 +54,24 @@ public class PostServiceImpl implements PostService{
 
         BookState bookState = BookState.createBookState(postDto);
 
+        List<Photo> photoList = fileHandler.parseFileInfo(files);
+
         Post post = Post.createPost(postDto, user, book, bookState);
 
+        // photo 저장
+        if(!photoList.isEmpty()) {
 
-        // category 설정
-        for (CategoryDto categoryDto : postDto.getCategoryDtos()) {
-            Category categoryById = categoryService.getCategoryById(categoryDto.getId());
-            PostCategory postCategory = new PostCategory();
-            postCategory.setCategory(categoryById); // 연관관계 주인
-            postCategory.setPost(post);
+            photoList.forEach(photo -> photo.setPost(post));
+
+        }
+        if(!postDto.getCategoryDtos().isEmpty()) {
+            // category 설정
+            for (CategoryDto categoryDto : postDto.getCategoryDtos()) {
+                Category categoryById = categoryService.getCategoryById(categoryDto.getId());
+                PostCategory postCategory = new PostCategory();
+                postCategory.setCategory(categoryById); // 연관관계 주인
+                postCategory.setPost(post);
+            }
         }
         return postRepository.save(post).getId();
     }

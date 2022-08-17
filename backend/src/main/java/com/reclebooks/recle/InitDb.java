@@ -13,9 +13,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -32,7 +35,7 @@ public class InitDb {
     private final InitService initService;
 
     @PostConstruct
-    public void init() {
+    public void init() throws Exception{
         initService.dbUserInit();
         initService.dbPostInit();
     }
@@ -99,7 +102,7 @@ public class InitDb {
             em.persist(user2);
         }
 
-        public void dbPostInit(){
+        public void dbPostInit() throws Exception{
             User user = userRepository.findOneWithuserAuthoritiesByUsername("yeongsang").get();
 
             Category category = new Category();  //category
@@ -147,9 +150,11 @@ public class InitDb {
             postDto1.setIsbn("8455");
             postDto1.setPublishDate("20201212");
 
+            List<MultipartFile> fileListEx = new ArrayList<>();
+
             //when
-            Long postId = postService.createPost(postDto);
-            Long postId1 = postService.createPost(postDto1);
+            Long postId = postService.createPost(postDto, fileListEx);
+            Long postId1 = postService.createPost(postDto1, fileListEx);
         }
 
         private UserAuthority createUserAuthority(User user, Authority authority) {

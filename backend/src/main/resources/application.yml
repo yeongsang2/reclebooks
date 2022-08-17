@@ -13,7 +13,7 @@ spring:
 #    password: recle123
 #    driver-class-name: com.mysql.cj.jdbc.Driver
   datasource:
-    url: jdbc:mysql://localhost/reclebooks?useSSL=false&allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost/recle?useSSL=false&allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=UTC
     username: ys
     password: dudtkd1221!
     driver-class-name: com.mysql.cj.jdbc.Driver
