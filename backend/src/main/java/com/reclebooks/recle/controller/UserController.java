@@ -37,7 +37,7 @@ public class UserController {
 
         @ApiOperation(value = "회원 가입", notes = "회원 가입 ")
         //userdto로 회원가입 userdto 반환 responseentity로 감싸서 userdto반환
-        @PostMapping(value = "/user")
+        @PostMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
         public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) {
 
                 return ResponseEntity.ok(userService.signUp(userDto));
@@ -46,7 +46,7 @@ public class UserController {
 
         @ApiOperation(value = "로그인", notes = "회원 가입 ")
         //로그인
-        @PostMapping(value = "/auth")
+        @PostMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
         public ResponseEntity<TokenDto> login(@Valid @RequestBody LoginDto loginDto){
                 TokenDto tokenDto = userService.login(loginDto);
 
@@ -60,7 +60,7 @@ public class UserController {
                 return new ResponseEntity<>(tokenDto, httpHeaders, HttpStatus.OK);
         }
 
-        @ApiOperation(value = "회원 정보 조회", notes = "admin 계정만 접근가능 ")
+        @ApiOperation(value = "회원 정보 조회", notes = "admin 계정만 접근가능 ",produces = MediaType.APPLICATION_JSON_VALUE)
         @GetMapping("/user/{username}")
         @PreAuthorize("hasAnyRole('ADMIN')") //회왼조회 admin 계정만 접근가능
         public ResponseEntity<UserDto> getUserInfo(@PathVariable String username){
