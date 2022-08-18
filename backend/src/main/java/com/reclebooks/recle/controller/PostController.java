@@ -48,22 +48,18 @@ public class PostController {
     public ResponseEntity<ResponsePostOneDto> getPostOne(@PathVariable Long postId) throws IOException {
 
         PostDto findPost = postService.getPostOneByPostId(postId);
+
         List<byte[]> bytephotos = photoService.getPhotos(postId);
 
-        log.info(bytephotos.toString());
-        ResponsePostOneDto responsePostOneDto = new ResponsePostOneDto(findPost,bytephotos);
+        BytePhotoDto bytePhotoDto = BytePhotoDto.builder()
+                .bytephotos(bytephotos)
+                .cnt(bytephotos.size())
+                .build();
+
+        ResponsePostOneDto responsePostOneDto = new ResponsePostOneDto(findPost,bytePhotoDto);
 
         return ResponseEntity.ok(responsePostOneDto);
     }
-
-//    @PostMapping("/board/post")
-//    @PreAuthorize("hasAnyRole('USER')") //user만 게시글 작성가능
-//    public ResponseEntity<Long> createPost(@RequestBody PostDto postDto){
-//
-//        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
-//        postDto.setUserId(user.getId());
-//        return ResponseEntity.ok(postService.createPost(postDto));
-//    }
 
     @PostMapping(value = "/board/post" ,  consumes = { MediaType.APPLICATION_JSON_VALUE,  MediaType.MULTIPART_FORM_DATA_VALUE })
     @PreAuthorize("hasAnyRole('USER')") //user만 게시글 작성가능

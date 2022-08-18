@@ -12,19 +12,19 @@ import java.util.List;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponsePostOneDto {
-    PostDto postDto;
-    List<byte[]> bytephotos = new ArrayList<>();
+    private PostDto postDto;
+    private BytePhotoDto bytePhotoDto;
 
-    public ResponsePostOneDto(PostDto postDto, List<byte[]> bytephotos) {
+    public ResponsePostOneDto(PostDto postDto, BytePhotoDto bytePhotoDto) {
         this.postDto = postDto;
-        this.bytephotos = bytephotos;
+        this.bytePhotoDto = bytePhotoDto;
     }
 
     @Override
     public String toString() {
         return "ResponsePostOneDto{" +
                 "postDto=" + postDto +
-                ", bytephotos=" + bytephotos.toString() +
+                ", bytePhotoDto=" + bytePhotoDto +
                 '}';
     }
 }
