@@ -4,9 +4,10 @@ import com.reclebooks.recle.domain.User;
 import com.reclebooks.recle.dto.*;
 import com.reclebooks.recle.repository.UserRepository;
 import com.reclebooks.recle.service.CategoryService;
+import com.reclebooks.recle.service.PhotoService;
+import com.reclebooks.recle.service.PhotoServiceImpl;
 import com.reclebooks.recle.service.PostService;
 import com.reclebooks.recle.util.SecurityUtil;
-import com.reclebooks.recle.vo.PostFileVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,10 +17,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
+import static com.mysql.cj.conf.PropertyKey.logger;
+
+
+@CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -29,7 +34,8 @@ public class PostController {
     private final PostService postService;
     private final UserRepository userRepository;
 
-    private final CategoryService categoryService;
+    private final PhotoService photoService;
+
     //전체조회
     @GetMapping("/board") //전체조회
     public ResponseEntity<PostListDto> getPostAll(){
@@ -38,11 +44,16 @@ public class PostController {
         return ResponseEntity.ok(postAll);
     }
 
-    @GetMapping("/board/post/{postId}") // 단건조회
-    public ResponseEntity<PostDto> getPostOne(@PathVariable Long postId){
-        PostDto findPost = postService.getPostOneByPostId(postId);
+    @GetMapping(value = "/board/post/{postId}",produces = MediaType.APPLICATION_JSON_VALUE) // 단건조회
+    public ResponseEntity<ResponsePostOneDto> getPostOne(@PathVariable Long postId) throws IOException {
 
-        return ResponseEntity.ok(findPost);
+        PostDto findPost = postService.getPostOneByPostId(postId);
+        List<byte[]> bytephotos = photoService.getPhotos(postId);
+
+        log.info(bytephotos.toString());
+        ResponsePostOneDto responsePostOneDto = new ResponsePostOneDto(findPost,bytephotos);
+
+        return ResponseEntity.ok(responsePostOneDto);
     }
 
 //    @PostMapping("/board/post")

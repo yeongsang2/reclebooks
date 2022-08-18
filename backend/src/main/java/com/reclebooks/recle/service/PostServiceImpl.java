@@ -8,6 +8,7 @@ import com.reclebooks.recle.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PostServiceImpl implements PostService{
 
     private final PostRepository postRepository;
@@ -40,8 +42,10 @@ public class PostServiceImpl implements PostService{
         return postListDto;
     }
 
+    //수정중
     @Override
     public PostDto getPostOneByPostId(Long postId) {
+
         return PostDto.from(postRepository.findById(postId).get());
     }
         

@@ -6,6 +6,9 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 20MB
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
   #  datasource:
 #    url: jdbc:mysql://springboot-db.ckd9iqpdnmol.ap-northeast-2.rds.amazonaws.com:3306/reclebooks?useSSL=false&allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=UTC

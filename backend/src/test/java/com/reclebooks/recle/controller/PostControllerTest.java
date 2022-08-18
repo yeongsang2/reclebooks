@@ -17,7 +17,6 @@ public class PostControllerTest {
 
     @Test
     public void postCreate(){
-
     }
 
 }

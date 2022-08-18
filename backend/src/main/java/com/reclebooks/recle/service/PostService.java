@@ -5,11 +5,12 @@ import com.reclebooks.recle.dto.GetPostDto;
 import com.reclebooks.recle.dto.PostListDto;
 import com.reclebooks.recle.dto.UpdatePostDto;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@Repository
+@Service
 public interface PostService{
 
 

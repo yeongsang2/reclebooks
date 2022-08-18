@@ -66,7 +66,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/h2-console/*", "/favicon.ico");
+        return (web) -> web.ignoring().antMatchers("/h2-console/*", "/favicon.ico", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**");
 
     }
 
@@ -75,4 +75,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+
 }
+
