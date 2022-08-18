@@ -29,5 +29,8 @@ public interface PostService{
     // 삭제
     public void deletePost(Long postId);
 
+    //조회수 증가
+    public void addViewCount(Long postId);
+
     // 검색
 }

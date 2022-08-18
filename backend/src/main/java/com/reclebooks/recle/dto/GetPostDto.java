@@ -22,6 +22,8 @@ public class GetPostDto {
 
     private String bookName;
 
+    private int viewCount;
+
     private byte[] image;
     public static GetPostDto from(Post post, byte[] imageByteArray){
 
@@ -32,6 +34,7 @@ public class GetPostDto {
         getPostDto.setTitle(post.getTitle());
         getPostDto.setPrice(post.getPrice());
         getPostDto.setBookName(post.getBook().getName());
+        getPostDto.setViewCount(post.getViewCount());
 
         getPostDto.setImage(imageByteArray);
 

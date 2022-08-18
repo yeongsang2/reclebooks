@@ -103,4 +103,12 @@ public class PostServiceImpl implements PostService{
     public void deletePost(Long postId) {
         postRepository.deleteById(postId); // 성공하면? null이면 ?? 나중에 예외처리해야할
     }
+
+    @Override
+    public void addViewCount(Long postId) {
+        Post post = postRepository.findById(postId).get();
+        post.addViewCount();
+    }
+
+
 }

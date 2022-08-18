@@ -45,6 +45,10 @@ public class Post {
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
 
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int viewCount;
+
+
     public static Post createPost(PostDto postDto, User user, Book book,BookState bookState){
 
         Post post = new Post();
@@ -81,6 +85,10 @@ public class Post {
     public void addPostCategory(PostCategory postCategory){
         postCategories.add(postCategory);
         postCategory.setPost(this);
+    }
+
+    public void addViewCount(){
+        viewCount ++;
     }
 
 }

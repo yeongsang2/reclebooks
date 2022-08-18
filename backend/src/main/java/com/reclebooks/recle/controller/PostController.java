@@ -50,6 +50,9 @@ public class PostController {
     @GetMapping(value = "/board/post/{postId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponsePostOneDto> getPostOne(@PathVariable Long postId) throws IOException {
 
+        //조회수 증가
+        postService.addViewCount(postId);
+
         PostDto findPost = postService.getPostOneByPostId(postId);
 
         List<byte[]> bytephotos = photoService.getPhotos(postId);

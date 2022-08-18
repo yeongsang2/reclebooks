@@ -35,6 +35,8 @@ public class PostDto {
     private boolean isOutlinedWithPencil;
     private boolean isOutlinedWithPen;
 
+    private int viewCount;
+
 
     public static PostDto from(Post post){
         
@@ -44,6 +46,7 @@ public class PostDto {
         postDto.setDescription(post.getDescription());
         postDto.setPrice(post.getPrice());
         postDto.setUserId(post.getUser().getId());
+        postDto.setViewCount(post.getViewCount());
         
         postDto.setCategoryDtos(post.getPostCategories().stream()
                         .map(postCategory -> new CategoryDto(postCategory.getCategory().getId(), postCategory.getCategory().getName()))
