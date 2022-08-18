@@ -4,6 +4,7 @@ import com.reclebooks.recle.domain.Post;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 
@@ -20,7 +21,9 @@ public class GetPostDto {
     private String price;
 
     private String bookName;
-    public static GetPostDto from(Post post){
+
+    private byte[] image;
+    public static GetPostDto from(Post post, byte[] imageByteArray){
 
         GetPostDto getPostDto = new GetPostDto();
 
@@ -30,17 +33,9 @@ public class GetPostDto {
         getPostDto.setPrice(post.getPrice());
         getPostDto.setBookName(post.getBook().getName());
 
+        getPostDto.setImage(imageByteArray);
+
         return getPostDto;
     }
 
-    @Override
-    public String toString() {
-        return "GetPostDto{" +
-                "userId=" + userId +
-                ", PostId=" + PostId +
-                ", title='" + title + '\'' +
-                ", price='" + price + '\'' +
-                ", bookName='" + bookName + '\'' +
-                '}';
-    }
 }

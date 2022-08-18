@@ -37,14 +37,17 @@ public class PostController {
     private final PhotoService photoService;
 
     //전체조회
-    @GetMapping("/board") //전체조회
-    public ResponseEntity<PostListDto> getPostAll(){
+    @GetMapping("/board")
+    public ResponseEntity<PostListDto> getPostAll() throws IOException {
+
         PostListDto postAll = postService.getPostAll();
 
         return ResponseEntity.ok(postAll);
     }
 
-    @GetMapping(value = "/board/post/{postId}",produces = MediaType.APPLICATION_JSON_VALUE) // 단건조회
+
+    // 단건조회
+    @GetMapping(value = "/board/post/{postId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponsePostOneDto> getPostOne(@PathVariable Long postId) throws IOException {
 
         PostDto findPost = postService.getPostOneByPostId(postId);
@@ -68,7 +71,6 @@ public class PostController {
         User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
 
         postDto.setUserId(user.getId());
-
 
         return ResponseEntity.ok(postService.createPost(postDto, files));
     }

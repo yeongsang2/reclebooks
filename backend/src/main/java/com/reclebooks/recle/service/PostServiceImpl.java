@@ -6,11 +6,13 @@ import com.reclebooks.recle.repository.PostRepository;
 import com.reclebooks.recle.repository.UserRepository;
 import com.reclebooks.recle.util.FileHandler;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,30 +26,7 @@ public class PostServiceImpl implements PostService{
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final CategoryService categoryService;
-
     private final FileHandler fileHandler;
-
-
-    //dto로 변환해서 반환하기
-    @Override
-    public PostListDto getPostAll() {
-
-        List<GetPostDto> postDtos = postRepository.findAll().stream()
-                .map(post -> GetPostDto.from(post))
-                .collect(Collectors.toList());
-        PostListDto postListDto = new PostListDto();
-        postListDto.setPostDtos(postDtos);
-        postListDto.setCount(postDtos.size());
-
-        return postListDto;
-    }
-
-    //수정중
-    @Override
-    public PostDto getPostOneByPostId(Long postId) {
-
-        return PostDto.from(postRepository.findById(postId).get());
-    }
         
     @Override
     public Long createPost(PostDto postDto, List<MultipartFile> files) throws Exception {
@@ -80,6 +59,36 @@ public class PostServiceImpl implements PostService{
         return postRepository.save(post).getId();
     }
 
+    @Override
+    public PostListDto getPostAll() throws IOException {
+
+        List<GetPostDto> postDtos = new ArrayList<>();
+
+        List<Post> all = postRepository.findAll();
+        for (Post post : all) {
+            List<Photo> photoList = post.getPhotoList();
+            if(!photoList.isEmpty()){  // 사진이 있으면
+
+                String path = photoList.get(0).getPhotoPath(); //이미지 하나 불러오기
+
+                String absolutePath = new File("").getAbsolutePath() + File.separator + File.separator;
+                InputStream imageStream = new FileInputStream(absolutePath + path);
+                byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+                imageStream.close();
+
+                postDtos.add(GetPostDto.from(post, imageByteArray));
+            }else {
+                postDtos.add(GetPostDto.from(post, null));
+            }
+        }
+        return new PostListDto(postDtos.size(),postDtos);
+    }
+
+    @Override
+    public PostDto getPostOneByPostId(Long postId) {
+
+        return PostDto.from(postRepository.findById(postId).get());
+    }
     @Override
     public Long updatePost(UpdatePostDto updatePostDto) {
 
