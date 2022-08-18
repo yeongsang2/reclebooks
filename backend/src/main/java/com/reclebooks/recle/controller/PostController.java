@@ -37,7 +37,7 @@ public class PostController {
     private final PhotoService photoService;
 
     //전체조회
-    @GetMapping("/board")
+    @GetMapping(value = "/board", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PostListDto> getPostAll() throws IOException {
 
         PostListDto postAll = postService.getPostAll();

@@ -48,6 +48,7 @@ public class Post {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int viewCount;
 
+    private String location;
 
     public static Post createPost(PostDto postDto, User user, Book book,BookState bookState){
 
@@ -63,6 +64,8 @@ public class Post {
 
         post.setBook(book);
         post.setBookState(bookState);
+
+        post.setLocation(postDto.getLocation());
 
         return post;
 

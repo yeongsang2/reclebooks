@@ -37,6 +37,8 @@ public class PostDto {
 
     private int viewCount;
 
+    private String location;
+
 
     public static PostDto from(Post post){
         
@@ -47,6 +49,7 @@ public class PostDto {
         postDto.setPrice(post.getPrice());
         postDto.setUserId(post.getUser().getId());
         postDto.setViewCount(post.getViewCount());
+        postDto.setLocation(post.getLocation());
         
         postDto.setCategoryDtos(post.getPostCategories().stream()
                         .map(postCategory -> new CategoryDto(postCategory.getCategory().getId(), postCategory.getCategory().getName()))
