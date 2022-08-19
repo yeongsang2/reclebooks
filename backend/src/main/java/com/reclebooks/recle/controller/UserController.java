@@ -2,11 +2,15 @@ package com.reclebooks.recle.controller;
 
 
 import antlr.Token;
+import com.reclebooks.recle.domain.User;
 import com.reclebooks.recle.dto.LoginDto;
+import com.reclebooks.recle.dto.ResponseUserDto;
 import com.reclebooks.recle.dto.TokenDto;
 import com.reclebooks.recle.dto.UserDto;
 import com.reclebooks.recle.jwt.JwtFilter;
+import com.reclebooks.recle.repository.UserRepository;
 import com.reclebooks.recle.service.UserService;
+import com.reclebooks.recle.util.SecurityUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -33,19 +37,8 @@ public class UserController {
 
         private final UserService userService;
 
-
-
-        @ApiOperation(value = "회원 가입", notes = "회원 가입 ")
-        //userdto로 회원가입 userdto 반환 responseentity로 감싸서 userdto반환
-        @PostMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
-        public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) {
-
-                return ResponseEntity.ok(userService.signUp(userDto));
-        }
-
-
-        @ApiOperation(value = "로그인", notes = "회원 가입 ")
         //로그인
+        @ApiOperation(value = "로그인", notes = "회원 가입 ")
         @PostMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
         public ResponseEntity<TokenDto> login(@Valid @RequestBody LoginDto loginDto){
                 TokenDto tokenDto = userService.login(loginDto);
@@ -60,12 +53,35 @@ public class UserController {
                 return new ResponseEntity<>(tokenDto, httpHeaders, HttpStatus.OK);
         }
 
-        @ApiOperation(value = "회원 정보 조회", notes = "admin 계정만 접근가능 ",produces = MediaType.APPLICATION_JSON_VALUE)
+
+        //userdto로 회원가입 userdto 반환 responseentity로 감싸서 userdto반환
+        @ApiOperation(value = "회원 가입", notes = "회원 가입 ")
+        @PostMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+        public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto userDto) {
+
+                return ResponseEntity.ok(userService.signUp(userDto));
+        }
+
+
+        //회왼조회 admin 계정만 접근가능
+        @ApiOperation(value = "회원 정보 조회(admin용)", notes = "admin 계정만 접근가능 ",produces = MediaType.APPLICATION_JSON_VALUE)
         @GetMapping("/user/{username}")
-        @PreAuthorize("hasAnyRole('ADMIN')") //회왼조회 admin 계정만 접근가능
-        public ResponseEntity<UserDto> getUserInfo(@PathVariable String username){
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<ResponseUserDto> getUserInfoByAdmin(@PathVariable String username){
+
                 return ResponseEntity.ok(userService.getUserWithAuthorities(username));
         }
 
+        //회원조회 개인
+
+        @ApiOperation(value = "회원 개인 정보 조회", notes = " 개인 정보 조회 ",produces = MediaType.APPLICATION_JSON_VALUE)
+        @GetMapping("/user")
+        @PreAuthorize("hasAnyRole('ADMIN','USER')")
+        public ResponseEntity<ResponseUserDto> getUserInfo(){
+
+                ResponseUserDto myUserInfo = userService.getMyUserWithAuthorities();
+
+                return ResponseEntity.ok(myUserInfo);
+        }
 
 }

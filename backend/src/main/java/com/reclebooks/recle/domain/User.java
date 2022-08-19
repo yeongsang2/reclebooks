@@ -1,7 +1,6 @@
 package com.reclebooks.recle.domain;
 
 
-import com.reclebooks.recle.dto.UserDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,15 +40,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> post = new ArrayList<Post>();
 
-//    public static User createUser(UserDto userDto,UserInfo userInfo) {
-//        User user = new User();
-//        user.userInfo = userInfo;
-//        user.setUsername(userDto.getUsername());
-//        user.setPassword(passwordEuserDto.getPassword());
-//        user.setActivated(true);
-//        return user;
-//
-//    }
 
 }
 

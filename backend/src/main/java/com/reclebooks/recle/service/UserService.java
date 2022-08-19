@@ -2,6 +2,7 @@ package com.reclebooks.recle.service;
 
 import com.reclebooks.recle.domain.*;
 import com.reclebooks.recle.dto.LoginDto;
+import com.reclebooks.recle.dto.ResponseUserDto;
 import com.reclebooks.recle.dto.TokenDto;
 import com.reclebooks.recle.dto.UserDto;
 import com.reclebooks.recle.jwt.JwtFilter;
@@ -71,18 +72,16 @@ public class UserService {
 
     @Transactional(readOnly = true)
     //username을 기준으로 정보를 가져옴
-    public UserDto getUserWithAuthorities(String username){
-        return UserDto.from(userRepository.findOneWithuserAuthoritiesByUsername(username).orElse(null));
+    public ResponseUserDto getUserWithAuthorities(String username){
+        return ResponseUserDto.from(userRepository.findOneWithuserAuthoritiesByUsername(username).orElse(null));
     }
 
     //SecurityContext에 저장된 username의 정보만 가져옴옴
     @Transactional(readOnly = true)
-    public UserDto getMyUserWithAuthorities(){
-        return UserDto.from(SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null));
+    public ResponseUserDto getMyUserWithAuthorities(){
+        return ResponseUserDto.from(SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null));
 
     }
-
-
     private UserInfo createUserInfo(UserDto userdto) {
         UserInfo userInfo = new UserInfo();
         userInfo.setNickName(userdto.getNickname());
@@ -101,8 +100,5 @@ public class UserService {
         userAuthority.setUser(user);
         userAuthority.getUser().getUserAuthorities().add(userAuthority);
     }
-
-
-
 
 }
