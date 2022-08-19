@@ -1,16 +1,14 @@
 package com.reclebooks.recle.service;
 
 import com.reclebooks.recle.domain.*;
-import com.reclebooks.recle.dto.LoginDto;
-import com.reclebooks.recle.dto.ResponseUserDto;
-import com.reclebooks.recle.dto.TokenDto;
-import com.reclebooks.recle.dto.UserDto;
-import com.reclebooks.recle.jwt.JwtFilter;
+import com.reclebooks.recle.dto.userdto.LoginDto;
+import com.reclebooks.recle.dto.userdto.ResponseUserDto;
+import com.reclebooks.recle.dto.authdto.TokenDto;
+import com.reclebooks.recle.dto.userdto.UserDto;
 import com.reclebooks.recle.jwt.TokenProvider;
 import com.reclebooks.recle.repository.UserRepository;
 import com.reclebooks.recle.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -19,9 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
-import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor

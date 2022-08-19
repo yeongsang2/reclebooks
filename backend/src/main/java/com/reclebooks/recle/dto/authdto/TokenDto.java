@@ -1,4 +1,4 @@
-package com.reclebooks.recle.dto;
+package com.reclebooks.recle.dto.authdto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.reclebooks.recle.service;
 
 import com.reclebooks.recle.domain.Category;
-import com.reclebooks.recle.dto.CategoryDto;
+import com.reclebooks.recle.dto.categorydto.CategoryDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

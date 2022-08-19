@@ -1,7 +1,7 @@
 package com.reclebooks.recle.util;
 
 import com.reclebooks.recle.domain.Photo;
-import com.reclebooks.recle.dto.PhotoDto;
+import com.reclebooks.recle.dto.postdto.PhotoDto;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;

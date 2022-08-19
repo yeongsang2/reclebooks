@@ -1,13 +1,16 @@
 package com.reclebooks.recle.service;
 
 import com.reclebooks.recle.domain.*;
-import com.reclebooks.recle.dto.*;
+import com.reclebooks.recle.dto.categorydto.CategoryDto;
+import com.reclebooks.recle.dto.postdto.GetPostDto;
+import com.reclebooks.recle.dto.postdto.PostDto;
+import com.reclebooks.recle.dto.postdto.PostListDto;
+import com.reclebooks.recle.dto.postdto.UpdatePostDto;
 import com.reclebooks.recle.repository.PostRepository;
 import com.reclebooks.recle.repository.UserRepository;
 import com.reclebooks.recle.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service

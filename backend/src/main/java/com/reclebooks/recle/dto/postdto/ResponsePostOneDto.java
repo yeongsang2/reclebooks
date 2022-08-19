@@ -1,11 +1,7 @@
-package com.reclebooks.recle.dto;
+package com.reclebooks.recle.dto.postdto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 
 @Getter

@@ -1,16 +1,12 @@
 package com.reclebooks.recle.controller;
 
 
-import antlr.Token;
-import com.reclebooks.recle.domain.User;
-import com.reclebooks.recle.dto.LoginDto;
-import com.reclebooks.recle.dto.ResponseUserDto;
-import com.reclebooks.recle.dto.TokenDto;
-import com.reclebooks.recle.dto.UserDto;
+import com.reclebooks.recle.dto.userdto.LoginDto;
+import com.reclebooks.recle.dto.userdto.ResponseUserDto;
+import com.reclebooks.recle.dto.authdto.TokenDto;
+import com.reclebooks.recle.dto.userdto.UserDto;
 import com.reclebooks.recle.jwt.JwtFilter;
-import com.reclebooks.recle.repository.UserRepository;
 import com.reclebooks.recle.service.UserService;
-import com.reclebooks.recle.util.SecurityUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

@@ -1,4 +1,4 @@
-package com.reclebooks.recle.dto;
+package com.reclebooks.recle.dto.postdto;
 
 import lombok.Getter;
 import lombok.Setter;

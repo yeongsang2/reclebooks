@@ -1,14 +1,11 @@
 package com.reclebooks.recle.service;
 
-import com.reclebooks.recle.dto.PostDto;
-import com.reclebooks.recle.dto.GetPostDto;
-import com.reclebooks.recle.dto.PostListDto;
-import com.reclebooks.recle.dto.UpdatePostDto;
-import org.springframework.stereotype.Repository;
+import com.reclebooks.recle.dto.postdto.PostDto;
+import com.reclebooks.recle.dto.postdto.PostListDto;
+import com.reclebooks.recle.dto.postdto.UpdatePostDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 

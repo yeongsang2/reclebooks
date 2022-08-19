@@ -2,9 +2,8 @@ package com.reclebooks.recle;
 
 
 import com.reclebooks.recle.domain.*;
-import com.reclebooks.recle.dto.CategoryDto;
-import com.reclebooks.recle.dto.PostDto;
-import com.reclebooks.recle.dto.UserDto;
+import com.reclebooks.recle.dto.categorydto.CategoryDto;
+import com.reclebooks.recle.dto.postdto.PostDto;
 import com.reclebooks.recle.repository.UserRepository;
 import com.reclebooks.recle.service.CategoryService;
 import com.reclebooks.recle.service.PostService;

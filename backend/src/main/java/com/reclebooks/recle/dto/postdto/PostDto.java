@@ -1,11 +1,9 @@
-package com.reclebooks.recle.dto;
+package com.reclebooks.recle.dto.postdto;
 
-import com.reclebooks.recle.domain.Category;
 import com.reclebooks.recle.domain.Post;
-import lombok.Builder;
+import com.reclebooks.recle.dto.categorydto.CategoryDto;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
 import java.util.List;

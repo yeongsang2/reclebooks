@@ -1,11 +1,9 @@
 package com.reclebooks.recle.controller;
 
 import com.reclebooks.recle.domain.User;
-import com.reclebooks.recle.dto.*;
+import com.reclebooks.recle.dto.postdto.*;
 import com.reclebooks.recle.repository.UserRepository;
-import com.reclebooks.recle.service.CategoryService;
 import com.reclebooks.recle.service.PhotoService;
-import com.reclebooks.recle.service.PhotoServiceImpl;
 import com.reclebooks.recle.service.PostService;
 import com.reclebooks.recle.util.SecurityUtil;
 import io.swagger.annotations.ApiOperation;
@@ -21,10 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.mysql.cj.conf.PropertyKey.logger;
 
 
 @ApiResponses({

@@ -1,6 +1,6 @@
 package com.reclebooks.recle.domain;
 
-import com.reclebooks.recle.dto.PostDto;
+import com.reclebooks.recle.dto.postdto.PostDto;
 import lombok.Getter;
 import lombok.Setter;
 

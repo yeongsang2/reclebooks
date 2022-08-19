@@ -1,11 +1,8 @@
-package com.reclebooks.recle.dto;
+package com.reclebooks.recle.dto.postdto;
 
 import com.reclebooks.recle.domain.Post;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 
 @Getter @Setter

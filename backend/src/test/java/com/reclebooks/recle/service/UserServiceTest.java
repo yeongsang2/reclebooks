@@ -1,30 +1,17 @@
 package com.reclebooks.recle.service;
 
-import com.reclebooks.recle.controller.UserController;
-import com.reclebooks.recle.domain.User;
-import com.reclebooks.recle.domain.UserInfo;
-import com.reclebooks.recle.dto.AuthorityDto;
-import com.reclebooks.recle.dto.LoginDto;
-import com.reclebooks.recle.dto.TokenDto;
-import com.reclebooks.recle.dto.UserDto;
+import com.reclebooks.recle.dto.userdto.LoginDto;
+import com.reclebooks.recle.dto.authdto.TokenDto;
+import com.reclebooks.recle.dto.userdto.UserDto;
 import com.reclebooks.recle.repository.UserRepository;
-import org.assertj.core.api.Assertions;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 
 @RunWith(SpringRunner.class)
