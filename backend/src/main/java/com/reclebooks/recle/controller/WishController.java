@@ -32,13 +32,25 @@ public class WishController {
     private final WishService wishService;
 
     @ApiOperation(value = "찜 하기", notes = "찜 하기 기능",produces = MediaType.APPLICATION_JSON_VALUE)
-    @GetMapping("/wish-list/{postId}")
+    @PostMapping("/wish-list/{postId}")
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResponseEntity<?> addWishList(@PathVariable Long postId){
 
         User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
 
         Long wishId = wishService.addWishList(postId, user.getId());
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "찜 해제", notes = "찜 해제 기능",produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping("/wish-list/{postId}")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    public ResponseEntity<?> deleteWishList(@PathVariable Long postId){
+
+        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
+
+        wishService.deleteWishList(postId, user.getId());
 
         return ResponseEntity.ok(HttpStatus.OK);
     }

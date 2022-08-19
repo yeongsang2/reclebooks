@@ -35,5 +35,7 @@ public class WishServiceImpl implements WishService{
     @Override
     public void deleteWishList(Long postId, Long userId) {
 
+        Wish wish = wishRepository.findByPostIdAndUserId(postId,userId).orElse(null);
+        wishRepository.deleteById(wish.getId());
     }
 }
