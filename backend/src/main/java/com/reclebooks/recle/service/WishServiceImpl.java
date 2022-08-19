@@ -3,14 +3,19 @@ package com.reclebooks.recle.service;
 import com.reclebooks.recle.domain.Post;
 import com.reclebooks.recle.domain.User;
 import com.reclebooks.recle.domain.Wish;
+import com.reclebooks.recle.dto.wishdto.WishDto;
 import com.reclebooks.recle.repository.PostRepository;
 import com.reclebooks.recle.repository.UserRepository;
 import com.reclebooks.recle.repository.WishRepository;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -49,5 +54,27 @@ public class WishServiceImpl implements WishService{
              throw new Exception("찜하지 않았음");
          }
         wishRepository.deleteById(wish.getId());
+    }
+
+    @Override
+    public List<WishDto> getWishList(Long userId) {
+
+
+        List<Wish> wishList = wishRepository.findAllByUserId(userId);
+
+        List<WishDto> wishDtoList = new ArrayList<>();
+
+        if(!wishList.isEmpty()){
+            for (Wish wish : wishList) {
+                WishDto wishDto = WishDto.builder()
+                        .postId(wish.getPost().getId())
+                        .title(wish.getPost().getTitle())
+                        .price(wish.getPost().getPrice())
+                        .isSell(wish.getPost().isSell())
+                        .build();
+                wishDtoList.add(wishDto);
+            }
+        }
+        return wishDtoList;
     }
 }

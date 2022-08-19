@@ -3,6 +3,9 @@ package com.reclebooks.recle.controller;
 
 import com.reclebooks.recle.domain.User;
 import com.reclebooks.recle.domain.Wish;
+import com.reclebooks.recle.dto.wishdto.ResponseWishDto;
+import com.reclebooks.recle.dto.wishdto.ResponseWishListDto;
+import com.reclebooks.recle.dto.wishdto.WishDto;
 import com.reclebooks.recle.service.UserService;
 import com.reclebooks.recle.service.WishService;
 import com.reclebooks.recle.util.SecurityUtil;
@@ -16,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @ApiResponses({
         @ApiResponse(code = 200, message = "Success"),
@@ -64,4 +69,16 @@ public class WishController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "찜 목록 불러오기", notes = "찜 하기 기능",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/wish-list")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    public ResponseEntity<?> getWishList(){
+
+        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
+
+
+        List<WishDto> wishList = wishService.getWishList(user.getId());
+
+        return ResponseEntity.ok(new ResponseWishListDto(wishList, wishList.size()));
+    }
 }
