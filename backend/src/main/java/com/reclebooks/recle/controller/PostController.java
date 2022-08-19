@@ -41,7 +41,7 @@ public class PostController {
 
     //전체조회 --> 추후 paging 개선
     @ApiOperation(value = "게시글 목록 조회", notes = "게시글 목록 전체 조회")
-    @GetMapping(value = "/board", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/posts", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PostListDto> getPostAll() throws IOException {
 
         PostListDto postAll = postService.getPostAll();
@@ -52,7 +52,7 @@ public class PostController {
 
     // 단건조회
     @ApiOperation(value = "게시글 조회", notes = "게시글 하나 조회")
-    @GetMapping(value = "/board/post/{postId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/post/{postId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponsePostOneDto> getPostOne(@PathVariable Long postId) throws IOException {
 
         //조회수 증가
@@ -74,7 +74,7 @@ public class PostController {
 
 
     @ApiOperation(value = "게시글 등록", notes = "게시글 등록")
-    @PostMapping(value = "/board/post" ,  consumes = { MediaType.APPLICATION_JSON_VALUE,  MediaType.MULTIPART_FORM_DATA_VALUE })
+    @PostMapping(value = "/post" ,  consumes = { MediaType.APPLICATION_JSON_VALUE,  MediaType.MULTIPART_FORM_DATA_VALUE })
     @PreAuthorize("hasAnyRole('USER' ,'ADMIN')") //user만 게시글 작성가능
     public ResponseEntity<Long> createPost(@RequestPart PostDto postDto, @RequestPart(required = false) List<MultipartFile> files) throws Exception {
 
@@ -87,7 +87,7 @@ public class PostController {
 
     //추후 수정
     @ApiOperation(value = "게시글 수정", notes = "도서상태, 게시글 내용만 수정가능 ")
-    @PatchMapping("/board/post")
+    @PatchMapping("/post")
     @PreAuthorize("hasAnyRole('USER')") // 해당 사용자만 게시글 수정 가능
     public ResponseEntity<?> upDate(@RequestBody UpdatePostDto updatePostDto){
 
@@ -105,7 +105,7 @@ public class PostController {
     }
 
     @ApiOperation(value = "게시글 삭제", notes = "게시글 삭제")
-    @DeleteMapping("/board/post/{postId}")
+    @DeleteMapping("/post/{postId}")
     @PreAuthorize("hasAnyRole('USER')") //user만 게시글 삭제가능
     public ResponseEntity<?> deletePost(@PathVariable Long postId){
 

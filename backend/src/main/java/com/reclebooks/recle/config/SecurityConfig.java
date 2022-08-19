@@ -52,9 +52,9 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/user").permitAll()
                 .antMatchers("/api/auth").permitAll()
-                .antMatchers("/api/board").permitAll()
-                .antMatchers("/api/board/post").permitAll()
-                .antMatchers("/api/board/post/{postId}").permitAll()
+                .antMatchers("/api/posts").permitAll()
+                .antMatchers("/api/post").permitAll()
+                .antMatchers("/api/post/{postId}").permitAll()
                 .anyRequest().authenticated()
 
                 //JwtFilter를 addFilterBefore로 등로했던 JwtSecurityConfig클래스로 적용
