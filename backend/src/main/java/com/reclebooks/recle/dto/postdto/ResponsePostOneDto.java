@@ -8,18 +8,18 @@ import lombok.*;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponsePostOneDto {
-    private PostDto postDto;
+    private ResponsePostDto responsePostDto;
     private BytePhotoDto bytePhotoDto;
 
-    public ResponsePostOneDto(PostDto postDto, BytePhotoDto bytePhotoDto) {
-        this.postDto = postDto;
+    public ResponsePostOneDto(ResponsePostDto responsePostDto, BytePhotoDto bytePhotoDto) {
+        this.responsePostDto = responsePostDto;
         this.bytePhotoDto = bytePhotoDto;
     }
 
     @Override
     public String toString() {
         return "ResponsePostOneDto{" +
-                "postDto=" + postDto +
+                "responsePostDto=" + responsePostDto +
                 ", bytePhotoDto=" + bytePhotoDto +
                 '}';
     }

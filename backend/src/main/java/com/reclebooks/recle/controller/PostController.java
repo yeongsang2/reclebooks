@@ -1,10 +1,12 @@
 package com.reclebooks.recle.controller;
 
+import com.reclebooks.recle.domain.Post;
 import com.reclebooks.recle.domain.User;
 import com.reclebooks.recle.dto.postdto.*;
 import com.reclebooks.recle.repository.UserRepository;
 import com.reclebooks.recle.service.PhotoService;
 import com.reclebooks.recle.service.PostService;
+import com.reclebooks.recle.service.UserService;
 import com.reclebooks.recle.util.SecurityUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -35,8 +37,7 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
-    private final UserRepository userRepository;
-
+    private final UserService userService;
     private final PhotoService photoService;
 
     //전체조회 --> 추후 paging 개선
@@ -58,7 +59,7 @@ public class PostController {
         //조회수 증가
         postService.addViewCount(postId);
 
-        PostDto findPost = postService.getPostOneByPostId(postId);
+        ResponsePostDto findPost = ResponsePostDto.from(postService.getPostOneByPostId(postId));
 
         List<byte[]> bytephotos = photoService.getPhotos(postId);
 
@@ -78,7 +79,8 @@ public class PostController {
     @PreAuthorize("hasAnyRole('USER' ,'ADMIN')") // 사용자만 작성 가능
     public ResponseEntity<Long> createPost(@RequestPart PostDto postDto, @RequestPart(required = false) List<MultipartFile> files) throws Exception {
 
-        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
+
+        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
 
         postDto.setUserId(user.getId());
 
@@ -91,10 +93,11 @@ public class PostController {
     @PreAuthorize("hasAnyRole('USER')") // 해당 사용자만 게시글 수정 가능
     public ResponseEntity<?> upDate(@RequestBody UpdatePostDto updatePostDto){
 
-        PostDto findPostDto = postService.getPostOneByPostId(updatePostDto.getPostId());
-        Long userId = findPostDto.getUserId();
+        Post post = postService.getPostOneByPostId(updatePostDto.getPostId());
 
-        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
+        Long userId = post.getUser().getId();
+
+        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
 
         if(user.getId() != userId){ //검증
             return new ResponseEntity<String>("Forbidden", HttpStatus.FORBIDDEN);
@@ -110,10 +113,11 @@ public class PostController {
     @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<?> deletePost(@PathVariable Long postId){
 
-        PostDto findPostDto = postService.getPostOneByPostId(postId);
-        Long userId = findPostDto.getUserId();
+        Post post = postService.getPostOneByPostId(postId);
+        Long userId = post.getUser().getId();
 
-        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
+        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
+
         if  (user.getId() != userId){ //검증
             return new ResponseEntity<String>("Forbidden", HttpStatus.FORBIDDEN);
         }
@@ -129,10 +133,10 @@ public class PostController {
     @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<?> salesCompletePost(@PathVariable Long postId){
 
-        PostDto findPostDto = postService.getPostOneByPostId(postId);
-        Long userId = findPostDto.getUserId();
+        Post post = postService.getPostOneByPostId(postId);
+        Long userId = post.getUser().getId();
 
-        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
+        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
 
         if(user.getId() != userId){ //검증
             return new ResponseEntity<String>("Forbidden", HttpStatus.FORBIDDEN);
@@ -140,6 +144,7 @@ public class PostController {
         postService.salesComplete(postId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
 
 }
 

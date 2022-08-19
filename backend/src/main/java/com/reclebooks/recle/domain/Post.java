@@ -53,6 +53,10 @@ public class Post {
     @Column(columnDefinition = "boolean default false", nullable = false)
     private boolean isSell;
 
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Wish> wishList = new ArrayList<>();
+
     public static Post createPost(PostDto postDto, User user, Book book,BookState bookState){
 
         Post post = new Post();

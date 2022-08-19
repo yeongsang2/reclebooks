@@ -17,7 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,9 +28,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final TokenProvider tokenProvider;
-
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     public UserDto signUp(UserDto userdto) {
         if (userRepository.findOneWithuserAuthoritiesByUsername(userdto.getUsername()).orElse(null) != null) {
@@ -68,14 +68,14 @@ public class UserService {
 
     @Transactional(readOnly = true)
     //username을 기준으로 정보를 가져옴
-    public ResponseUserDto getUserWithAuthorities(String username){
-        return ResponseUserDto.from(userRepository.findOneWithuserAuthoritiesByUsername(username).orElse(null));
+    public Optional<User> getUserWithAuthorities(String username){
+        return userRepository.findOneWithuserAuthoritiesByUsername(username);
     }
+
 
     //SecurityContext에 저장된 username의 정보만 가져옴옴
     @Transactional(readOnly = true)
     public User getMyUserWithAuthorities(){
-
         return SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
     }
     private UserInfo createUserInfo(UserDto userdto) {

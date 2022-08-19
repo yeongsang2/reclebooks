@@ -71,7 +71,7 @@ public class UserController {
         @PreAuthorize("hasRole('ADMIN')")
         public ResponseEntity<ResponseUserDto> getUserInfoByAdmin(@PathVariable String username){
 
-                return ResponseEntity.ok(userService.getUserWithAuthorities(username));
+                return ResponseEntity.ok(ResponseUserDto.from(userService.getUserWithAuthorities(username).get()));
         }
 
         //회원조회 개인

@@ -26,6 +26,8 @@ public class GetPostDto {
     private boolean isSell;
 
     private byte[] image;
+
+    private int wishCount;
     public static GetPostDto from(Post post, byte[] imageByteArray){
 
         GetPostDto getPostDto = new GetPostDto();
@@ -38,6 +40,7 @@ public class GetPostDto {
         getPostDto.setViewCount(post.getViewCount());
         getPostDto.setLocation(post.getLocation());
         getPostDto.setSell(post.isSell());
+        getPostDto.setWishCount(post.getWishList().size());
 
         getPostDto.setImage(imageByteArray);
 

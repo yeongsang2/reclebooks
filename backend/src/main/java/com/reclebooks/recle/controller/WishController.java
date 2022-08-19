@@ -1,0 +1,46 @@
+package com.reclebooks.recle.controller;
+
+
+import com.reclebooks.recle.domain.User;
+import com.reclebooks.recle.service.UserService;
+import com.reclebooks.recle.service.WishService;
+import com.reclebooks.recle.util.SecurityUtil;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+@ApiResponses({
+        @ApiResponse(code = 200, message = "Success"),
+        @ApiResponse(code = 400, message = "Bad Request"),
+        @ApiResponse(code = 500, message = "Internal Server Error")
+})
+@CrossOrigin
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api")
+@Slf4j
+public class WishController {
+
+    private final UserService userService;
+    private final WishService wishService;
+
+    @ApiOperation(value = "찜 하기", notes = "찜 하기 기능",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/wish-list/{postId}")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    public ResponseEntity<?> addWishList(@PathVariable Long postId){
+
+        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
+
+        Long wishId = wishService.addWishList(postId, user.getId());
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+}

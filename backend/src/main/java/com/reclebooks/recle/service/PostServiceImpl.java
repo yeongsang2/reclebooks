@@ -87,9 +87,9 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public PostDto getPostOneByPostId(Long postId) {
+    public Post getPostOneByPostId(Long postId) {
 
-        return PostDto.from(postRepository.findById(postId).get());
+        return postRepository.findById(postId).get();
     }
     @Override
     public Long updatePost(UpdatePostDto updatePostDto) {

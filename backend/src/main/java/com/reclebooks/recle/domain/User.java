@@ -40,5 +40,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> post = new ArrayList<Post>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Wish> wishList = new ArrayList<>();
+
+
 }
 
