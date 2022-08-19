@@ -2,6 +2,7 @@ package com.reclebooks.recle.controller;
 
 
 import com.reclebooks.recle.domain.User;
+import com.reclebooks.recle.domain.Wish;
 import com.reclebooks.recle.service.UserService;
 import com.reclebooks.recle.service.WishService;
 import com.reclebooks.recle.util.SecurityUtil;
@@ -38,7 +39,11 @@ public class WishController {
 
         User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
 
-        Long wishId = wishService.addWishList(postId, user.getId());
+        try {
+            Long wishId = wishService.addWishList(postId, user.getId());
+        } catch (Exception e) {
+            return new ResponseEntity<String>("이미 찜함", HttpStatus.BAD_REQUEST);
+        }
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -50,7 +55,11 @@ public class WishController {
 
         User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
 
-        wishService.deleteWishList(postId, user.getId());
+        try {
+            wishService.deleteWishList(postId, user.getId());
+        } catch (Exception e) {
+            return new ResponseEntity<String>("찜하지 않았음", HttpStatus.BAD_REQUEST);
+        }
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
