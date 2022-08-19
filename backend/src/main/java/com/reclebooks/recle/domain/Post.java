@@ -50,6 +50,9 @@ public class Post {
 
     private String location;
 
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private boolean isSell;
+
     public static Post createPost(PostDto postDto, User user, Book book,BookState bookState){
 
         Post post = new Post();

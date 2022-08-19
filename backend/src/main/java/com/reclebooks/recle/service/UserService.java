@@ -74,9 +74,9 @@ public class UserService {
 
     //SecurityContext에 저장된 username의 정보만 가져옴옴
     @Transactional(readOnly = true)
-    public ResponseUserDto getMyUserWithAuthorities(){
-        return ResponseUserDto.from(SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null));
+    public User getMyUserWithAuthorities(){
 
+        return SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
     }
     private UserInfo createUserInfo(UserDto userdto) {
         UserInfo userInfo = new UserInfo();
