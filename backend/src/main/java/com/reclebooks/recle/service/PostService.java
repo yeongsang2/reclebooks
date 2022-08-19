@@ -29,5 +29,9 @@ public interface PostService{
     //조회수 증가
     public void addViewCount(Long postId);
 
+    // 판매완료
+    public void salesComplete(Long postId);
+
+
     // 검색
 }

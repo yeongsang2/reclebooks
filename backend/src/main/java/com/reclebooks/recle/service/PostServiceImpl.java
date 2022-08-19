@@ -112,5 +112,11 @@ public class PostServiceImpl implements PostService{
         post.addViewCount();
     }
 
+    @Override
+    public void salesComplete(Long postId) {
+        Post post = postRepository.findById(postId).get();
+        post.setSell(true);
+    }
+
 
 }

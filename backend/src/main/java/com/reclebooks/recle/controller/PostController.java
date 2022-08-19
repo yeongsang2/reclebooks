@@ -75,7 +75,7 @@ public class PostController {
 
     @ApiOperation(value = "게시글 등록", notes = "게시글 등록")
     @PostMapping(value = "/post" ,  consumes = { MediaType.APPLICATION_JSON_VALUE,  MediaType.MULTIPART_FORM_DATA_VALUE })
-    @PreAuthorize("hasAnyRole('USER' ,'ADMIN')") //user만 게시글 작성가능
+    @PreAuthorize("hasAnyRole('USER' ,'ADMIN')") // 사용자만 작성 가능
     public ResponseEntity<Long> createPost(@RequestPart PostDto postDto, @RequestPart(required = false) List<MultipartFile> files) throws Exception {
 
         User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
@@ -104,22 +104,42 @@ public class PostController {
 
     }
 
+    //user만 게시글 삭제가능
     @ApiOperation(value = "게시글 삭제", notes = "게시글 삭제")
     @DeleteMapping("/post/{postId}")
-    @PreAuthorize("hasAnyRole('USER')") //user만 게시글 삭제가능
+    @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<?> deletePost(@PathVariable Long postId){
 
         PostDto findPostDto = postService.getPostOneByPostId(postId);
         Long userId = findPostDto.getUserId();
 
         User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
-        if(user.getId() != userId){ //검증
+        if  (user.getId() != userId){ //검증
             return new ResponseEntity<String>("Forbidden", HttpStatus.FORBIDDEN);
         }
         postService.deletePost(postId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+
+
+    //판매완료
+    @ApiOperation(value = "판매 완료", notes = "판매 완료를 설정을 위한 api")
+    @PostMapping("/post/{postId}/sales")
+    @PreAuthorize("hasAnyRole('USER')")
+    public ResponseEntity<?> salesCompletePost(@PathVariable Long postId){
+
+        PostDto findPostDto = postService.getPostOneByPostId(postId);
+        Long userId = findPostDto.getUserId();
+
+        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
+
+        if(user.getId() != userId){ //검증
+            return new ResponseEntity<String>("Forbidden", HttpStatus.FORBIDDEN);
+        }
+        postService.salesComplete(postId);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 
 }
 
