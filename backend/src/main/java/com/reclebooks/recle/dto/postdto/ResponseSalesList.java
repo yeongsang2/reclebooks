@@ -10,7 +10,10 @@ public class ResponseSalesList {
 
     private List<ResponseSalesDto> responseSalesDtoList = new ArrayList<>();
 
-    public ResponseSalesList(List<ResponseSalesDto> responseSalesDtoList) {
+    private int count;
+
+    public ResponseSalesList(List<ResponseSalesDto> responseSalesDtoList, int count) {
         this.responseSalesDtoList = responseSalesDtoList;
+        this.count = count;
     }
 }

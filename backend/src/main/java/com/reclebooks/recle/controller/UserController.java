@@ -95,7 +95,7 @@ public class UserController {
                 List<ResponseSalesDto> responseSalesDtos = user.getPost().stream().map(post -> ResponseSalesDto.from(post))
                         .collect(Collectors.toList());
 
-                return ResponseEntity.ok(new ResponseSalesList(responseSalesDtos));
+                return ResponseEntity.ok(new ResponseSalesList(responseSalesDtos, responseSalesDtos.size()));
         }
 
 }
