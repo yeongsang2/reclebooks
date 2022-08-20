@@ -1,6 +1,10 @@
 package com.reclebooks.recle.controller;
 
 
+import com.reclebooks.recle.domain.Post;
+import com.reclebooks.recle.domain.User;
+import com.reclebooks.recle.dto.postdto.ResponseSalesDto;
+import com.reclebooks.recle.dto.postdto.ResponseSalesList;
 import com.reclebooks.recle.dto.userdto.LoginDto;
 import com.reclebooks.recle.dto.userdto.ResponseUserDto;
 import com.reclebooks.recle.dto.authdto.TokenDto;
@@ -19,6 +23,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ApiResponses({
         @ApiResponse(code = 200, message = "Success"),
@@ -65,7 +71,7 @@ public class UserController {
         @PreAuthorize("hasRole('ADMIN')")
         public ResponseEntity<ResponseUserDto> getUserInfoByAdmin(@PathVariable String username){
 
-                return ResponseEntity.ok(userService.getUserWithAuthorities(username));
+                return ResponseEntity.ok(ResponseUserDto.from(userService.getUserWithAuthorities(username).get()));
         }
 
         //회원조회 개인
@@ -75,9 +81,21 @@ public class UserController {
         @PreAuthorize("hasAnyRole('ADMIN','USER')")
         public ResponseEntity<ResponseUserDto> getUserInfo(){
 
-                ResponseUserDto myUserInfo = userService.getMyUserWithAuthorities();
+                ResponseUserDto myUserInfo = ResponseUserDto.from(userService.getMyUserWithAuthorities());
 
                 return ResponseEntity.ok(myUserInfo);
+        }
+
+        @ApiOperation(value = "판매 목록 조회", notes = "판매 중인 목록 조회 ",produces = MediaType.APPLICATION_JSON_VALUE)
+        @GetMapping("/user/sales-list")
+        @PreAuthorize("hasAnyRole('ADMIN','USER')")
+        public ResponseEntity<ResponseSalesList> getPostListByUser(){
+
+                User user = userService.getMyUserWithAuthorities();
+                List<ResponseSalesDto> responseSalesDtos = user.getPost().stream().map(post -> ResponseSalesDto.from(post))
+                        .collect(Collectors.toList());
+
+                return ResponseEntity.ok(new ResponseSalesList(responseSalesDtos, responseSalesDtos.size()));
         }
 
 }

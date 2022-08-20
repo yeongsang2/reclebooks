@@ -9,7 +9,7 @@ import lombok.Setter;
 public class GetPostDto {
 
     /**
-     * 전체조회 dto
+     * 게시글 전체조회 dto
      */
     private Long userId;
     private Long PostId;
@@ -23,7 +23,11 @@ public class GetPostDto {
 
     private String location;
 
+    private boolean isSell;
+
     private byte[] image;
+
+    private int wishCount;
     public static GetPostDto from(Post post, byte[] imageByteArray){
 
         GetPostDto getPostDto = new GetPostDto();
@@ -35,6 +39,8 @@ public class GetPostDto {
         getPostDto.setBookName(post.getBook().getName());
         getPostDto.setViewCount(post.getViewCount());
         getPostDto.setLocation(post.getLocation());
+        getPostDto.setSell(post.isSell());
+        getPostDto.setWishCount(post.getWishList().size());
 
         getPostDto.setImage(imageByteArray);
 

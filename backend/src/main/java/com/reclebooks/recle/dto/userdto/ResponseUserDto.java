@@ -19,6 +19,7 @@ public class ResponseUserDto {
 
     private List<AuthorityDto> authorityDtos = new ArrayList<>();
 
+
     public static ResponseUserDto from(User user){
 
         ResponseUserDto responseUserDto = ResponseUserDto.builder()

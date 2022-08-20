@@ -87,9 +87,9 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public PostDto getPostOneByPostId(Long postId) {
+    public Post getPostOneByPostId(Long postId) {
 
-        return PostDto.from(postRepository.findById(postId).get());
+        return postRepository.findById(postId).get();
     }
     @Override
     public Long updatePost(UpdatePostDto updatePostDto) {
@@ -110,6 +110,12 @@ public class PostServiceImpl implements PostService{
     public void addViewCount(Long postId) {
         Post post = postRepository.findById(postId).get();
         post.addViewCount();
+    }
+
+    @Override
+    public void salesComplete(Long postId) {
+        Post post = postRepository.findById(postId).get();
+        post.setSell(true);
     }
 
 

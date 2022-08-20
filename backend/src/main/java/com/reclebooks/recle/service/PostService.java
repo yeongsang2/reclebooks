@@ -1,5 +1,6 @@
 package com.reclebooks.recle.service;
 
+import com.reclebooks.recle.domain.Post;
 import com.reclebooks.recle.dto.postdto.PostDto;
 import com.reclebooks.recle.dto.postdto.PostListDto;
 import com.reclebooks.recle.dto.postdto.UpdatePostDto;
@@ -17,7 +18,7 @@ public interface PostService{
     public PostListDto getPostAll() throws IOException;
 
     // 단건조회
-    public PostDto getPostOneByPostId(Long id);
+    public Post getPostOneByPostId(Long id);
 
     // 등록
     public Long createPost(PostDto postDto, List<MultipartFile> files) throws Exception;
@@ -29,5 +30,9 @@ public interface PostService{
     //조회수 증가
     public void addViewCount(Long postId);
 
+    // 판매완료
+    public void salesComplete(Long postId);
+
+    //
     // 검색
 }

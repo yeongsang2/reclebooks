@@ -1,10 +1,12 @@
 package com.reclebooks.recle.controller;
 
+import com.reclebooks.recle.domain.Post;
 import com.reclebooks.recle.domain.User;
 import com.reclebooks.recle.dto.postdto.*;
 import com.reclebooks.recle.repository.UserRepository;
 import com.reclebooks.recle.service.PhotoService;
 import com.reclebooks.recle.service.PostService;
+import com.reclebooks.recle.service.UserService;
 import com.reclebooks.recle.util.SecurityUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -35,13 +37,12 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
-    private final UserRepository userRepository;
-
+    private final UserService userService;
     private final PhotoService photoService;
 
     //전체조회 --> 추후 paging 개선
     @ApiOperation(value = "게시글 목록 조회", notes = "게시글 목록 전체 조회")
-    @GetMapping(value = "/board", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/posts", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PostListDto> getPostAll() throws IOException {
 
         PostListDto postAll = postService.getPostAll();
@@ -52,13 +53,13 @@ public class PostController {
 
     // 단건조회
     @ApiOperation(value = "게시글 조회", notes = "게시글 하나 조회")
-    @GetMapping(value = "/board/post/{postId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/post/{postId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponsePostOneDto> getPostOne(@PathVariable Long postId) throws IOException {
 
         //조회수 증가
         postService.addViewCount(postId);
 
-        PostDto findPost = postService.getPostOneByPostId(postId);
+        ResponsePostDto findPost = ResponsePostDto.from(postService.getPostOneByPostId(postId));
 
         List<byte[]> bytephotos = photoService.getPhotos(postId);
 
@@ -74,11 +75,12 @@ public class PostController {
 
 
     @ApiOperation(value = "게시글 등록", notes = "게시글 등록")
-    @PostMapping(value = "/board/post" ,  consumes = { MediaType.APPLICATION_JSON_VALUE,  MediaType.MULTIPART_FORM_DATA_VALUE })
-    @PreAuthorize("hasAnyRole('USER' ,'ADMIN')") //user만 게시글 작성가능
+    @PostMapping(value = "/post" ,  consumes = { MediaType.APPLICATION_JSON_VALUE,  MediaType.MULTIPART_FORM_DATA_VALUE })
+    @PreAuthorize("hasAnyRole('USER' ,'ADMIN')") // 사용자만 작성 가능
     public ResponseEntity<Long> createPost(@RequestPart PostDto postDto, @RequestPart(required = false) List<MultipartFile> files) throws Exception {
 
-        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
+
+        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
 
         postDto.setUserId(user.getId());
 
@@ -87,14 +89,15 @@ public class PostController {
 
     //추후 수정
     @ApiOperation(value = "게시글 수정", notes = "도서상태, 게시글 내용만 수정가능 ")
-    @PatchMapping("/board/post")
+    @PatchMapping("/post")
     @PreAuthorize("hasAnyRole('USER')") // 해당 사용자만 게시글 수정 가능
     public ResponseEntity<?> upDate(@RequestBody UpdatePostDto updatePostDto){
 
-        PostDto findPostDto = postService.getPostOneByPostId(updatePostDto.getPostId());
-        Long userId = findPostDto.getUserId();
+        Post post = postService.getPostOneByPostId(updatePostDto.getPostId());
 
-        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
+        Long userId = post.getUser().getId();
+
+        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
 
         if(user.getId() != userId){ //검증
             return new ResponseEntity<String>("Forbidden", HttpStatus.FORBIDDEN);
@@ -104,19 +107,41 @@ public class PostController {
 
     }
 
+    //user만 게시글 삭제가능
     @ApiOperation(value = "게시글 삭제", notes = "게시글 삭제")
-    @DeleteMapping("/board/post/{postId}")
-    @PreAuthorize("hasAnyRole('USER')") //user만 게시글 삭제가능
+    @DeleteMapping("/post/{postId}")
+    @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity<?> deletePost(@PathVariable Long postId){
 
-        PostDto findPostDto = postService.getPostOneByPostId(postId);
-        Long userId = findPostDto.getUserId();
+        Post post = postService.getPostOneByPostId(postId);
+        Long userId = post.getUser().getId();
 
-        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userRepository.findOneWithuserAuthoritiesByUsername(username)).orElse(null);
-        if(user.getId() != userId){ //검증
+        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
+
+        if  (user.getId() != userId){ //검증
             return new ResponseEntity<String>("Forbidden", HttpStatus.FORBIDDEN);
         }
         postService.deletePost(postId);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+
+
+    //판매완료
+    @ApiOperation(value = "판매 완료", notes = "판매 완료를 설정을 위한 api")
+    @PostMapping("/post/{postId}/sales")
+    @PreAuthorize("hasAnyRole('USER')")
+    public ResponseEntity<?> salesCompletePost(@PathVariable Long postId){
+
+        Post post = postService.getPostOneByPostId(postId);
+        Long userId = post.getUser().getId();
+
+        User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
+
+        if(user.getId() != userId){ //검증
+            return new ResponseEntity<String>("Forbidden", HttpStatus.FORBIDDEN);
+        }
+        postService.salesComplete(postId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

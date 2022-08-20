@@ -11,7 +11,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class PostListDto {
-    // 전체조회
+    /**
+     * 전체게시글 조회
+     */
     private int count;
     private List<GetPostDto> postDtos = new ArrayList<>();
 
