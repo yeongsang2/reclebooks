@@ -20,8 +20,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Example API")
-                .description("Swagger 소개를 위한 example")
+                .title("recle API")
+                .description("recle api 소개")
                 .build();
     }
 

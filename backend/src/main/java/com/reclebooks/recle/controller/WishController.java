@@ -37,8 +37,8 @@ public class WishController {
     private final UserService userService;
     private final WishService wishService;
 
-    @ApiOperation(value = "찜 하기", notes = "찜 하기 기능",produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping("/wish-list/{postId}")
+    @ApiOperation(value = "찜 하기", notes = "찜 하기 기능")
+    @PostMapping(value = "/wish-list/{postId}",produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResponseEntity<?> addWishList(@PathVariable Long postId){
 
@@ -53,8 +53,8 @@ public class WishController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @ApiOperation(value = "찜 해제", notes = "찜 해제 기능",produces = MediaType.APPLICATION_JSON_VALUE)
-    @DeleteMapping("/wish-list/{postId}")
+    @ApiOperation(value = "찜 해제", notes = "찜 해제 기능")
+    @DeleteMapping(value ="/wish-list/{postId}",produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResponseEntity<?> deleteWishList(@PathVariable Long postId){
 
@@ -69,16 +69,18 @@ public class WishController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @ApiOperation(value = "찜 목록 불러오기", notes = "찜 하기 기능",produces = MediaType.APPLICATION_JSON_VALUE)
-    @GetMapping("/wish-list")
+    @ApiOperation(value = "찜 목록 불러오기", notes = "찜 하기 기능")
+    @GetMapping(value ="/wish-list",produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    public ResponseEntity<?> getWishList(){
+    public ResponseEntity<ResponseWishListDto> getWishList(){
 
         User user = SecurityUtil.getCurrentUsername().flatMap(username -> userService.getUserWithAuthorities(username)).get();
 
 
         List<WishDto> wishList = wishService.getWishList(user.getId());
 
-        return ResponseEntity.ok(new ResponseWishListDto(wishList, wishList.size()));
+        ResponseWishListDto responseWishListDto = new ResponseWishListDto(wishList, wishList.size());
+
+        return ResponseEntity.ok(responseWishListDto);
     }
 }

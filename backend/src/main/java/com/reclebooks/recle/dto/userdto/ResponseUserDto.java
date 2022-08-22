@@ -24,7 +24,7 @@ public class ResponseUserDto {
 
         ResponseUserDto responseUserDto = ResponseUserDto.builder()
                 .username(user.getUsername())
-                .nickname(user.getUsername())
+                .nickname(user.getUserInfo().getNickName())
                 .authorityDtos(user.getUserAuthorities().stream()
                         .map(userAuthority -> AuthorityDto.builder()
                                 .authorityType(userAuthority.getAuthority().getAuthorityType())

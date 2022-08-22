@@ -14,4 +14,13 @@ public class WishDto {
     private boolean isSell;
 
 
+    @Override
+    public String toString() {
+        return "WishDto{" +
+                "postId=" + postId +
+                ", title='" + title + '\'' +
+                ", price='" + price + '\'' +
+                ", isSell=" + isSell +
+                '}';
+    }
 }
