@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 @Getter
 public class ResponseUserDto {
 
+    private Long userId;
+
     private String username;
 
     private String nickname;
@@ -23,6 +25,7 @@ public class ResponseUserDto {
     public static ResponseUserDto from(User user){
 
         ResponseUserDto responseUserDto = ResponseUserDto.builder()
+                .userId(user.getId())
                 .username(user.getUsername())
                 .nickname(user.getUserInfo().getNickName())
                 .authorityDtos(user.getUserAuthorities().stream()
