@@ -90,7 +90,7 @@ public class PostController {
     //추후 수정
     @ApiOperation(value = "게시글 수정", notes = "도서상태, 게시글 내용만 수정가능 ")
     @PatchMapping("/post")
-    @PreAuthorize("hasAnyRole('USER')") // 해당 사용자만 게시글 수정 가능
+    @PreAuthorize("hasAnyRole('USER' ,'ADMIN')") // 사용자만 작성 가능
     public ResponseEntity<?> upDate(@RequestBody UpdatePostDto updatePostDto){
 
         Post post = postService.getPostOneByPostId(updatePostDto.getPostId());
@@ -110,7 +110,7 @@ public class PostController {
     //user만 게시글 삭제가능
     @ApiOperation(value = "게시글 삭제", notes = "게시글 삭제")
     @DeleteMapping("/post/{postId}")
-    @PreAuthorize("hasAnyRole('USER')")
+    @PreAuthorize("hasAnyRole('USER' ,'ADMIN')") // 사용자만 작성 가능
     public ResponseEntity<?> deletePost(@PathVariable Long postId){
 
         Post post = postService.getPostOneByPostId(postId);
@@ -130,7 +130,7 @@ public class PostController {
     //판매완료
     @ApiOperation(value = "판매 완료", notes = "판매 완료를 설정을 위한 api")
     @PostMapping("/post/{postId}/sales")
-    @PreAuthorize("hasAnyRole('USER')")
+    @PreAuthorize("hasAnyRole('USER' ,'ADMIN')") // 사용자만 작성 가능
     public ResponseEntity<?> salesCompletePost(@PathVariable Long postId){
 
         Post post = postService.getPostOneByPostId(postId);

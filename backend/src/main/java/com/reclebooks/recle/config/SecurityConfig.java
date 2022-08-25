@@ -52,11 +52,15 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/user").permitAll()
                 .antMatchers("/api/auth").permitAll()
+                .antMatchers("/api/user/sales-list").permitAll()
                 .antMatchers("/api/categorys").permitAll()
                 .antMatchers("/api/categorys/{categoryId}").permitAll()
                 .antMatchers("/api/posts").permitAll()
+                .antMatchers("/api/post/{postId}/sales").permitAll()
                 .antMatchers("/api/post").permitAll()
                 .antMatchers("/api/post/{postId}").permitAll()
+                .antMatchers("/api/wish-list").permitAll()
+                .antMatchers("/api/wish-list/{postId}").permitAll()
                 .anyRequest().authenticated()
 
                 //JwtFilter를 addFilterBefore로 등로했던 JwtSecurityConfig클래스로 적용
