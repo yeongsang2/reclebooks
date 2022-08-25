@@ -52,6 +52,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/user").permitAll()
                 .antMatchers("/api/auth").permitAll()
+                .antMatchers("/api/categorys").permitAll()
+                .antMatchers("/api/categorys/{categoryId}").permitAll()
                 .antMatchers("/api/posts").permitAll()
                 .antMatchers("/api/post").permitAll()
                 .antMatchers("/api/post/{postId}").permitAll()

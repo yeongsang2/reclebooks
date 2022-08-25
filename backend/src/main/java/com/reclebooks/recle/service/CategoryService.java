@@ -12,7 +12,7 @@ public interface CategoryService {
 
 
     //category 불러오기
-    public List<CategoryDto> getCategoryAll();
+    public List<Category> getCategoryAll();
 
 
     //id로 category 가져오기
@@ -22,4 +22,5 @@ public interface CategoryService {
     public Long createCategory(Category category);
 
 
+    public List<Category> getCategoryChild(Long categoryId);
 }

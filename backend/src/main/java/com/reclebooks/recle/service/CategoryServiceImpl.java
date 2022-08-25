@@ -17,8 +17,9 @@ public class CategoryServiceImpl implements CategoryService{
     private final CategoryRepository categoryRepository;
 
     @Override
-    public List<CategoryDto> getCategoryAll() {
-        return null;
+    public List<Category> getCategoryAll() {
+
+        return categoryRepository.findAll();
     }
 
     @Override
@@ -32,5 +33,13 @@ public class CategoryServiceImpl implements CategoryService{
     public Long createCategory(Category category) {
         Category saveCategory = categoryRepository.save(category);
         return saveCategory.getId();
+    }
+
+    @Override
+    public List<Category> getCategoryChild(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId).orElse(null);
+        List<Category> child = category.getChild();
+
+        return child;
     }
 }
