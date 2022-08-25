@@ -104,17 +104,7 @@ public class InitDb {
         public void dbPostInit() throws Exception{
             User user = userRepository.findOneWithuserAuthoritiesByUsername("yeongsang").get();
 
-            Category category = new Category();  //category
-            category.setName("자바");
-            categoryService.createCategory(category);
-            Category category1 = new Category();
-            category1.setName("컴퓨터");
-            categoryService.createCategory(category1);
-
             PostDto postDto = new PostDto();
-
-            postDto.getCategoryDtos().add(CategoryDto.from(category));
-            postDto.getCategoryDtos().add(CategoryDto.from(category1));
 
             postDto.setUserId(user.getId());
 
@@ -132,9 +122,6 @@ public class InitDb {
 ///////////////////////////////////////
 
             PostDto postDto1 = new PostDto();
-
-            postDto1.getCategoryDtos().add(CategoryDto.from(category));
-            postDto1.getCategoryDtos().add(CategoryDto.from(category1));
 
             postDto1.setUserId(user.getId());
 
