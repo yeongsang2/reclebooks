@@ -41,7 +41,7 @@ public class PostController {
     private final PhotoService photoService;
 
     //전체조회 --> 추후 paging 개선
-    @ApiOperation(value = "게시글 목록 조회", notes = "게시글 목록 전체 조회")
+    @ApiOperation(value = "게시글 목록 조회", notes = "게시글 목록 조회 , 카테고리, title 검색으로 필터 가능")
     @GetMapping(value = "/posts", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PostListDto> getPostAll(@RequestParam(required = false) Long categoryId, @RequestParam(required = false) String keyword) throws IOException {
 
