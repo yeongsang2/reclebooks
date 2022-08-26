@@ -10,8 +10,8 @@ import com.reclebooks.recle.repository.PostCategoryRepository;
 import com.reclebooks.recle.repository.PostRepository;
 import com.reclebooks.recle.repository.UserRepository;
 import com.reclebooks.recle.util.FileHandler;
+import com.reclebooks.recle.util.PostUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -32,6 +31,7 @@ public class PostServiceImpl implements PostService{
     private final UserRepository userRepository;
     private final CategoryService categoryService;
     private final FileHandler fileHandler;
+    private final PostUtil postUtil;
 
     private final PostCategoryRepository postCategoryRepository;
         
@@ -67,27 +67,18 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public PostListDto getPostAll() throws IOException {
+    public PostListDto getPostAll(String keyword) throws IOException {
 
-        List<GetPostDto> postDtos = new ArrayList<>();
+        List<Post> postList;
 
-        List<Post> all = postRepository.findAll();
-        for (Post post : all) {
-            List<Photo> photoList = post.getPhotoList();
-            if(!photoList.isEmpty()){  // 사진이 있으면
-
-                String path = photoList.get(0).getPhotoPath(); //이미지 하나 불러오기
-
-                String absolutePath = new File("").getAbsolutePath() + File.separator + File.separator;
-                InputStream imageStream = new FileInputStream(absolutePath + path);
-                byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-                imageStream.close();
-
-                postDtos.add(GetPostDto.from(post, imageByteArray));
-            }else {
-                postDtos.add(GetPostDto.from(post, null));
-            }
+        if(keyword == null){ // keyword 없으면
+            postList = postRepository.findAll();
+        }else{
+            postList = postRepository.findAllByTitleContaining(keyword);
         }
+
+        List<GetPostDto> postDtos = postUtil.makeGetPostDtoWithPhoto(postList);
+
         return new PostListDto(postDtos.size(),postDtos);
     }
 
@@ -125,18 +116,24 @@ public class PostServiceImpl implements PostService{
 
     // 필터
     @Override
-    public PostListDto getPostFilterByCategory(Long categoryId) throws IOException {
+    public PostListDto getPostFilterByCategory(Long categoryId, String keyword) throws IOException {
 
         List<Post> postList = new ArrayList<>();
-
-        List<GetPostDto> postDtos = new ArrayList<>();
 
         Category findCategory = categoryService.getCategoryById(categoryId);
 
         if(findCategory.getDepth() == 1) { //자식 카테고리없음
-            postList = postCategoryRepository.findAllByCategoryId(categoryId).stream()
-                    .map(postCategory -> postCategory.get().getPost())
-                    .collect(Collectors.toList());
+
+            if(keyword == null) {
+                postList = postCategoryRepository.findAllByCategoryId(categoryId).stream()
+                        .map(postCategory -> postCategory.get().getPost())
+                        .collect(Collectors.toList());
+            }else{
+                postList = postCategoryRepository.findAllByCategoryId(categoryId).stream()
+                        .map(postCategory -> postCategory.get().getPost())
+                        .filter(post -> post.getTitle().contains(keyword))
+                        .collect(Collectors.toList());
+            }
         }else{ //깊이가 0 자식 카테고리가 있음 --> 자식 카테고리에 해당하는 post모두 포함
 
             List<Long> categoryIds = findCategory.getChild().stream()
@@ -144,10 +141,22 @@ public class PostServiceImpl implements PostService{
                     .collect(Collectors.toList());
 
             for (Long id : categoryIds) {
-                List<Post> collect = postCategoryRepository.findAllByCategoryId(id)
-                        .stream()
-                        .map(postCategory -> postCategory.get().getPost())
-                        .collect(Collectors.toList());
+
+                List<Post> collect;
+
+                if(keyword == null) {
+                    collect = postCategoryRepository.findAllByCategoryId(id)
+                            .stream()
+                            .map(postCategory -> postCategory.get().getPost())
+                            .collect(Collectors.toList());
+                }else {
+                    collect = postCategoryRepository.findAllByCategoryId(id)
+                            .stream()
+                            .map(postCategory -> postCategory.get().getPost())
+                            .filter(post -> post.getTitle().contains(keyword))
+                            .collect(Collectors.toList());
+                }
+
                 for (Post post : collect) {
                     if(!postList.contains(post)){ //중복검사
                         postList.add(post);
@@ -156,22 +165,8 @@ public class PostServiceImpl implements PostService{
             }
         }
 
-        for (Post post : postList) {
-            List<Photo> photoList = post.getPhotoList();
-            if(!photoList.isEmpty()){  // 사진이 있으면
+        List<GetPostDto> postDtos = postUtil.makeGetPostDtoWithPhoto(postList);
 
-                String path = photoList.get(0).getPhotoPath(); //이미지 하나 불러오기
-
-                String absolutePath = new File("").getAbsolutePath() + File.separator + File.separator;
-                InputStream imageStream = new FileInputStream(absolutePath + path);
-                byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-                imageStream.close();
-
-                postDtos.add(GetPostDto.from(post, imageByteArray));
-            }else {
-                postDtos.add(GetPostDto.from(post, null));
-            }
-        }
         return new PostListDto(postDtos.size(),postDtos);
     }
 

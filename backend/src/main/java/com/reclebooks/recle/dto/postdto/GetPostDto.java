@@ -9,7 +9,7 @@ import lombok.Setter;
 public class GetPostDto {
 
     /**
-     * 게시글 전체조회 dto
+     * 게시글 전체조회 할때 사용하는 dto
      */
     private Long userId;
     private Long PostId;

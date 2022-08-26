@@ -16,7 +16,7 @@ public interface PostService{
 
 
     // 전체조회
-    public PostListDto getPostAll() throws IOException;
+    public PostListDto getPostAll(String keyword) throws IOException;
 
     // 단건조회
     public Post getPostOneByPostId(Long id);
@@ -35,7 +35,7 @@ public interface PostService{
     public void salesComplete(Long postId);
 
     //카테고리 필터
-    public PostListDto getPostFilterByCategory(Long categoryId) throws IOException;
+    public PostListDto getPostFilterByCategory(Long categoryId, String keyword) throws IOException;
 
 
     //
