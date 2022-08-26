@@ -7,6 +7,7 @@ import com.reclebooks.recle.dto.postdto.UpdatePostDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -32,6 +33,10 @@ public interface PostService{
 
     // 판매완료
     public void salesComplete(Long postId);
+
+    //카테고리 필터
+    public PostListDto getPostFilterByCategory(Long categoryId) throws IOException;
+
 
     //
     // 검색

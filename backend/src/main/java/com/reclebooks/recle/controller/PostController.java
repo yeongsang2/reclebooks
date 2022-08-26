@@ -43,11 +43,17 @@ public class PostController {
     //전체조회 --> 추후 paging 개선
     @ApiOperation(value = "게시글 목록 조회", notes = "게시글 목록 전체 조회")
     @GetMapping(value = "/posts", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PostListDto> getPostAll() throws IOException {
+    public ResponseEntity<PostListDto> getPostAll(@RequestParam(required = false, defaultValue = "0") Long categoryId ) throws IOException {
 
-        PostListDto postAll = postService.getPostAll();
+        PostListDto postListDto;
 
-        return ResponseEntity.ok(postAll);
+        if(categoryId == 0) {
+            postListDto  = postService.getPostAll();
+        }else {
+            postListDto = postService.getPostFilterByCategory(categoryId);
+        }
+
+        return ResponseEntity.ok(postListDto);
     }
 
 

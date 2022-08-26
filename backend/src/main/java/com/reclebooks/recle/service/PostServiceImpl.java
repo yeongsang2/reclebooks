@@ -6,6 +6,7 @@ import com.reclebooks.recle.dto.postdto.GetPostDto;
 import com.reclebooks.recle.dto.postdto.PostDto;
 import com.reclebooks.recle.dto.postdto.PostListDto;
 import com.reclebooks.recle.dto.postdto.UpdatePostDto;
+import com.reclebooks.recle.repository.PostCategoryRepository;
 import com.reclebooks.recle.repository.PostRepository;
 import com.reclebooks.recle.repository.UserRepository;
 import com.reclebooks.recle.util.FileHandler;
@@ -18,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -29,6 +32,8 @@ public class PostServiceImpl implements PostService{
     private final UserRepository userRepository;
     private final CategoryService categoryService;
     private final FileHandler fileHandler;
+
+    private final PostCategoryRepository postCategoryRepository;
         
     @Override
     public Long createPost(PostDto postDto, List<MultipartFile> files) throws Exception {
@@ -116,6 +121,58 @@ public class PostServiceImpl implements PostService{
     public void salesComplete(Long postId) {
         Post post = postRepository.findById(postId).get();
         post.setSell(true);
+    }
+
+    // 필터
+    @Override
+    public PostListDto getPostFilterByCategory(Long categoryId) throws IOException {
+
+        List<Post> postList = new ArrayList<>();
+
+        List<GetPostDto> postDtos = new ArrayList<>();
+
+        Category findCategory = categoryService.getCategoryById(categoryId);
+
+        if(findCategory.getDepth() == 1) { //자식 카테고리없음
+            postList = postCategoryRepository.findAllByCategoryId(categoryId).stream()
+                    .map(postCategory -> postCategory.get().getPost())
+                    .collect(Collectors.toList());
+        }else{ //깊이가 0 자식 카테고리가 있음 --> 자식 카테고리에 해당하는 post모두 포함
+
+            List<Long> categoryIds = findCategory.getChild().stream()
+                    .map(category -> category.getId())
+                    .collect(Collectors.toList());
+
+            for (Long id : categoryIds) {
+                List<Post> collect = postCategoryRepository.findAllByCategoryId(id)
+                        .stream()
+                        .map(postCategory -> postCategory.get().getPost())
+                        .collect(Collectors.toList());
+                for (Post post : collect) {
+                    if(!postList.contains(post)){ //중복검사
+                        postList.add(post);
+                    }
+                }
+            }
+        }
+
+        for (Post post : postList) {
+            List<Photo> photoList = post.getPhotoList();
+            if(!photoList.isEmpty()){  // 사진이 있으면
+
+                String path = photoList.get(0).getPhotoPath(); //이미지 하나 불러오기
+
+                String absolutePath = new File("").getAbsolutePath() + File.separator + File.separator;
+                InputStream imageStream = new FileInputStream(absolutePath + path);
+                byte[] imageByteArray = IOUtils.toByteArray(imageStream);
+                imageStream.close();
+
+                postDtos.add(GetPostDto.from(post, imageByteArray));
+            }else {
+                postDtos.add(GetPostDto.from(post, null));
+            }
+        }
+        return new PostListDto(postDtos.size(),postDtos);
     }
 
 
