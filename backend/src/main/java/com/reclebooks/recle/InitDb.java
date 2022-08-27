@@ -100,49 +100,49 @@
 //            em.persist(userAuthority2);
 //            em.persist(user2);
 //        }
-
-//        public void dbPostInit() throws Exception{
-//            User user = userRepository.findOneWithuserAuthoritiesByUsername("yeongsang").get();
 //
-//            PostDto postDto = new PostDto();
-//
-//            postDto.setUserId(user.getId());
-//
-//            postDto.setTitle("책팜");
-//            postDto.setDescription("책팔아용");
-//            postDto.setPrice("10000");
-//
-//            postDto.setBookName("jpa");
-//            postDto.setBookAuthor("김영한");
-//            postDto.setBookPrice("200000");
-//            postDto.setBookPublisher("조은출판");
-//            postDto.setIsbn("2315");
-//            postDto.setPublishDate("20200303");
-//
-/////////////////////////////////////////
-//
-//            PostDto postDto1 = new PostDto();
-//
-//            postDto1.setUserId(user.getId());
-//
-//            postDto1.setTitle("토비의스프링");
-//            postDto1.setDescription("책팔아용");
-//            postDto1.setPrice("15000");
-//
-//            postDto1.setBookName("토비의스프링");
-//            postDto1.setBookAuthor("토비");
-//            postDto1.setBookPrice("25000");
-//            postDto1.setBookPublisher("조은출판");
-//            postDto1.setIsbn("8455");
-//            postDto1.setPublishDate("20201212");
-//
-//            List<MultipartFile> fileListEx = new ArrayList<>();
-//
-//            //when
-//            Long postId = postService.createPost(postDto, fileListEx);
-//            Long postId1 = postService.createPost(postDto1, fileListEx);
-//        }
-//
+////        public void dbPostInit() throws Exception{
+////            User user = userRepository.findOneWithuserAuthoritiesByUsername("yeongsang").get();
+////
+////            PostDto postDto = new PostDto();
+////
+////            postDto.setUserId(user.getId());
+////
+////            postDto.setTitle("책팜");
+////            postDto.setDescription("책팔아용");
+////            postDto.setPrice("10000");
+////
+////            postDto.setBookName("jpa");
+////            postDto.setBookAuthor("김영한");
+////            postDto.setBookPrice("200000");
+////            postDto.setBookPublisher("조은출판");
+////            postDto.setIsbn("2315");
+////            postDto.setPublishDate("20200303");
+////
+///////////////////////////////////////////
+////
+////            PostDto postDto1 = new PostDto();
+////
+////            postDto1.setUserId(user.getId());
+////
+////            postDto1.setTitle("토비의스프링");
+////            postDto1.setDescription("책팔아용");
+////            postDto1.setPrice("15000");
+////
+////            postDto1.setBookName("토비의스프링");
+////            postDto1.setBookAuthor("토비");
+////            postDto1.setBookPrice("25000");
+////            postDto1.setBookPublisher("조은출판");
+////            postDto1.setIsbn("8455");
+////            postDto1.setPublishDate("20201212");
+////
+////            List<MultipartFile> fileListEx = new ArrayList<>();
+////
+////            //when
+////            Long postId = postService.createPost(postDto, fileListEx);
+////            Long postId1 = postService.createPost(postDto1, fileListEx);
+////        }
+////
 //        private UserAuthority createUserAuthority(User user, Authority authority) {
 //            UserAuthority userAuthority = new UserAuthority();
 //            userAuthority.setAuthority(authority);
