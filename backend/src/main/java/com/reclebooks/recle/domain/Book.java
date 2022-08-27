@@ -40,7 +40,7 @@ public class Book {
         book.setPrice(searchBookDtoByIsbn.getChannel().getItem().getPrice());
         book.setPublisher(searchBookDtoByIsbn.getChannel().getItem().getPublisher());
         book.setPubdate(searchBookDtoByIsbn.getChannel().getItem().getPubdate());
-        book.setIsbn(searchBookDtoByIsbn.getChannel().getItem().getAuthor());
+        book.setIsbn(searchBookDtoByIsbn.getChannel().getItem().getIsbn());
 
         return book;
     }

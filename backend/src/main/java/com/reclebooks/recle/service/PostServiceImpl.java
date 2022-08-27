@@ -11,7 +11,6 @@ import com.reclebooks.recle.repository.PostCategoryRepository;
 import com.reclebooks.recle.repository.PostRepository;
 import com.reclebooks.recle.repository.UserRepository;
 import com.reclebooks.recle.util.FileHandler;
-import com.reclebooks.recle.util.PostUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +31,6 @@ public class PostServiceImpl implements PostService{
     private final UserRepository userRepository;
     private final CategoryService categoryService;
     private final FileHandler fileHandler;
-    private final PostUtil postUtil;
 
     private final BookService  bookService;
 
@@ -174,7 +172,9 @@ public class PostServiceImpl implements PostService{
             }
         }
 
-        List<GetPostDto> postDtos = postUtil.makeGetPostDtoWithPhoto(postList);
+        List<GetPostDto> postDtos = postList.stream()
+                .map(post -> GetPostDto.from(post))
+                .collect(Collectors.toList());
 
         return new PostListDto(postDtos.size(),postDtos);
     }
