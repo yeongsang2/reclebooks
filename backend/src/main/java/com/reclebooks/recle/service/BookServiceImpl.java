@@ -1,6 +1,7 @@
 package com.reclebooks.recle.service;
 
 import com.reclebooks.recle.dto.bookdto.SearchBookDto;
+import com.reclebooks.recle.dto.bookdto.SearchBookDtoByIsbn;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,7 +25,9 @@ public class BookServiceImpl implements BookService{
     private final String clientId = "d5Efx46Mjzm0TT8rw_Ph";
     private final String clientSecret = "JU5XYCocBk";
 
-    private String apiURL = "https://openapi.naver.com/v1/search/book.json?display=20";
+    private String searchBookURL = "https://openapi.naver.com/v1/search/book.json?display=20";
+    private String searchBookByIsbnURL = "https://openapi.naver.com/v1/search/book_adv.xml";
+
     @Override
     public SearchBookDto searchBook(String keyword) {
 
@@ -32,13 +35,30 @@ public class BookServiceImpl implements BookService{
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> httpEntity = getHttpEntity();
         URI targetUrl = UriComponentsBuilder
-                .fromUriString(apiURL)
+                .fromUriString(searchBookURL)
                 .queryParam("query", keyword)
                 .build()
                 .encode(StandardCharsets.UTF_8)
                 .toUri();
 
         return restTemplate.exchange(targetUrl, HttpMethod.GET, httpEntity, SearchBookDto.class).getBody();
+    }
+
+    @Override
+    public SearchBookDtoByIsbn searchBookByIsbn(String isbn) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<String> httpEntity = getHttpEntity();
+        URI targetUrl = UriComponentsBuilder
+                .fromUriString(searchBookByIsbnURL)
+                .queryParam("d_isbn", isbn)
+                .build()
+                .encode(StandardCharsets.UTF_8)
+                .toUri();
+
+        SearchBookDtoByIsbn searchBookDtoByIsbn = restTemplate.exchange(targetUrl, HttpMethod.GET, httpEntity, SearchBookDtoByIsbn.class).getBody();
+
+        return searchBookDtoByIsbn;
     }
 
     private HttpEntity<String> getHttpEntity() {

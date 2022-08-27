@@ -21,12 +21,7 @@ public class PostDto {
     private String description;
     private String price;
 
-    private String bookName;
-    private String bookAuthor;
-    private String bookPublisher;
-    private String bookPrice;
     private String isbn;
-    private String publishDate;
 
     private boolean isMarkedWithPencil;
     private boolean isMarkedWithPen;
@@ -35,57 +30,4 @@ public class PostDto {
 
     private String location;
 
-
-
-    public static PostDto from(Post post){
-        
-        PostDto postDto = new PostDto();
-        postDto.setPostId(post.getId());
-        postDto.setTitle(post.getTitle());
-        postDto.setDescription(post.getDescription());
-        postDto.setPrice(post.getPrice());
-        postDto.setUserId(post.getUser().getId());
-        postDto.setLocation(post.getLocation());
-
-        postDto.setCategoryDtos(post.getPostCategories().stream()
-                        .map(postCategory -> new CategoryDto(postCategory.getCategory().getId(), postCategory.getCategory().getName()))
-                        .collect(Collectors.toList()));
-
-        postDto.setBookName(post.getBook().getName());
-        postDto.setBookAuthor(post.getBook().getAuthor());
-        postDto.setBookPublisher(post.getBook().getPublisher());
-        postDto.setPublishDate(post.getBook().getPublishDate());
-        postDto.setBookPrice(post.getBook().getPrice());
-        postDto.setIsbn(post.getBook().getIsbn());
-
-        postDto.setMarkedWithPencil(post.getBookState().isMarkedWithPencil());
-        postDto.setMarkedWithPen(post.getBookState().isMarkedWithPen());
-        postDto.setOutlinedWithPencil(post.getBookState().isOutlinedWithPencil());
-        postDto.setOutlinedWithPen(post.getBookState().isOutlinedWithPen());
-
-        return postDto;
-    }
-
-
-    @Override
-    public String toString() {
-        return "PostDto{" +
-                "userId=" + userId +
-                ", PostId=" + PostId +
-                ", categoryDtos=" + categoryDtos +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", price='" + price + '\'' +
-                ", bookName='" + bookName + '\'' +
-                ", bookAuthor='" + bookAuthor + '\'' +
-                ", bookPublisher='" + bookPublisher + '\'' +
-                ", bookPrice='" + bookPrice + '\'' +
-                ", isbn='" + isbn + '\'' +
-                ", publishDate='" + publishDate + '\'' +
-                ", isMarkedWithPencil=" + isMarkedWithPencil +
-                ", isMarkedWithPen=" + isMarkedWithPen +
-                ", isOutlinedWithPencil=" + isOutlinedWithPencil +
-                ", isOutlinedWithPen=" + isOutlinedWithPen +
-                '}';
-    }
 }
