@@ -31,6 +31,7 @@ public class ResponsePostDto {
     private String bookPrice;
     private String isbn;
     private String publishDate;
+    private String link;
 
     private boolean isMarkedWithPencil;
     private boolean isMarkedWithPen;
@@ -65,6 +66,7 @@ public class ResponsePostDto {
         ResponsePostDto.setPublishDate(post.getBook().getPubdate());
         ResponsePostDto.setBookPrice(post.getBook().getPrice());
         ResponsePostDto.setIsbn(post.getBook().getIsbn());
+        ResponsePostDto.setLink(post.getBook().getLink());
 
         ResponsePostDto.setMarkedWithPencil(post.getBookState().isMarkedWithPencil());
         ResponsePostDto.setMarkedWithPen(post.getBookState().isMarkedWithPen());

@@ -28,6 +28,12 @@ public class BookServiceImpl implements BookService{
     private String searchBookURL = "https://openapi.naver.com/v1/search/book.json?display=20";
     private String searchBookByIsbnURL = "https://openapi.naver.com/v1/search/book_adv.xml";
 
+    /**
+     *
+     * @param keyword
+     * @return
+     * naver api 활용하여 도서 검색
+     */
     @Override
     public SearchBookDto searchBook(String keyword) {
 
@@ -44,6 +50,12 @@ public class BookServiceImpl implements BookService{
         return restTemplate.exchange(targetUrl, HttpMethod.GET, httpEntity, SearchBookDto.class).getBody();
     }
 
+    /**
+     *
+     * @param isbn
+     * @return
+     * isbn을 통해 특정 도서 찾음
+     */
     @Override
     public SearchBookDtoByIsbn searchBookByIsbn(String isbn) {
 
@@ -60,6 +72,7 @@ public class BookServiceImpl implements BookService{
 
         return searchBookDtoByIsbn;
     }
+
 
     private HttpEntity<String> getHttpEntity() {
         HttpHeaders httpHeaders = new HttpHeaders();
