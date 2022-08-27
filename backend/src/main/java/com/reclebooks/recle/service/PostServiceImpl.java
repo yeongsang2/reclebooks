@@ -1,6 +1,7 @@
 package com.reclebooks.recle.service;
 
 import com.reclebooks.recle.domain.*;
+import com.reclebooks.recle.dto.bookdto.SearchBookDtoByIsbn;
 import com.reclebooks.recle.dto.categorydto.CategoryDto;
 import com.reclebooks.recle.dto.postdto.GetPostDto;
 import com.reclebooks.recle.dto.postdto.PostDto;
@@ -10,7 +11,6 @@ import com.reclebooks.recle.repository.PostCategoryRepository;
 import com.reclebooks.recle.repository.PostRepository;
 import com.reclebooks.recle.repository.UserRepository;
 import com.reclebooks.recle.util.FileHandler;
-import com.reclebooks.recle.util.PostUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +31,8 @@ public class PostServiceImpl implements PostService{
     private final UserRepository userRepository;
     private final CategoryService categoryService;
     private final FileHandler fileHandler;
-    private final PostUtil postUtil;
+
+    private final BookService  bookService;
 
     private final PostCategoryRepository postCategoryRepository;
         
@@ -40,7 +41,11 @@ public class PostServiceImpl implements PostService{
 
         User user = userRepository.findById(postDto.getUserId()).get();
 
-        Book book = Book.createBook(postDto);
+        //postDto 에서 isbn 불러옴 book service에서 젇보 받아와서 book return
+        SearchBookDtoByIsbn searchBookDtoByIsbn = bookService.searchBookByIsbn(postDto.getIsbn());
+
+        Book book = Book.createBook(searchBookDtoByIsbn);
+
 
         BookState bookState = BookState.createBookState(postDto);
 
@@ -77,7 +82,9 @@ public class PostServiceImpl implements PostService{
             postList = postRepository.findAllByTitleContaining(keyword);
         }
 
-        List<GetPostDto> postDtos = postUtil.makeGetPostDtoWithPhoto(postList);
+        List<GetPostDto> postDtos = postList.stream()
+                .map(post -> GetPostDto.from(post))
+                .collect(Collectors.toList());
 
         return new PostListDto(postDtos.size(),postDtos);
     }
@@ -165,7 +172,9 @@ public class PostServiceImpl implements PostService{
             }
         }
 
-        List<GetPostDto> postDtos = postUtil.makeGetPostDtoWithPhoto(postList);
+        List<GetPostDto> postDtos = postList.stream()
+                .map(post -> GetPostDto.from(post))
+                .collect(Collectors.toList());
 
         return new PostListDto(postDtos.size(),postDtos);
     }

@@ -25,10 +25,10 @@ public class GetPostDto {
 
     private boolean isSell;
 
-    private byte[] image;
+    private String thumbnailImage;
 
     private int wishCount;
-    public static GetPostDto from(Post post, byte[] imageByteArray){
+    public static GetPostDto from(Post post){
 
         GetPostDto getPostDto = new GetPostDto();
 
@@ -36,13 +36,13 @@ public class GetPostDto {
         getPostDto.setPostId(post.getId());
         getPostDto.setTitle(post.getTitle());
         getPostDto.setPrice(post.getPrice());
-        getPostDto.setBookName(post.getBook().getName());
+        getPostDto.setBookName(post.getBook().getTitle());
         getPostDto.setViewCount(post.getViewCount());
         getPostDto.setLocation(post.getLocation());
         getPostDto.setSell(post.isSell());
         getPostDto.setWishCount(post.getWishList().size());
 
-        getPostDto.setImage(imageByteArray);
+        getPostDto.setThumbnailImage(post.getBook().getThumbnailImage());
 
         return getPostDto;
     }

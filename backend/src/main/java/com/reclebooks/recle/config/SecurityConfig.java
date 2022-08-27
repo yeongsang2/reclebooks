@@ -61,6 +61,7 @@ public class SecurityConfig {
                 .antMatchers("/api/post/{postId}").permitAll()
                 .antMatchers("/api/wish-list").permitAll()
                 .antMatchers("/api/wish-list/{postId}").permitAll()
+                .antMatchers("/api/book").permitAll()
                 .anyRequest().authenticated()
 
                 //JwtFilter를 addFilterBefore로 등로했던 JwtSecurityConfig클래스로 적용

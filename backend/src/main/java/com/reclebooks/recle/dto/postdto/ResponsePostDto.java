@@ -59,10 +59,10 @@ public class ResponsePostDto {
                 .map(postCategory -> new CategoryDto(postCategory.getCategory().getId(), postCategory.getCategory().getName()))
                 .collect(Collectors.toList()));
 
-        ResponsePostDto.setBookName(post.getBook().getName());
+        ResponsePostDto.setBookName(post.getBook().getTitle());
         ResponsePostDto.setBookAuthor(post.getBook().getAuthor());
         ResponsePostDto.setBookPublisher(post.getBook().getPublisher());
-        ResponsePostDto.setPublishDate(post.getBook().getPublishDate());
+        ResponsePostDto.setPublishDate(post.getBook().getPubdate());
         ResponsePostDto.setBookPrice(post.getBook().getPrice());
         ResponsePostDto.setIsbn(post.getBook().getIsbn());
 
