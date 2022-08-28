@@ -131,8 +131,6 @@ public class PostController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-
-
     //판매완료
     @ApiOperation(value = "판매 완료", notes = "판매 완료를 설정을 위한 api")
     @PostMapping("/post/{postId}/sales")
